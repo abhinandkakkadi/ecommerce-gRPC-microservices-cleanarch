@@ -10,6 +10,7 @@ type Config struct {
 	AuthSvcUrl    string `mapstructure:"AUTH_SVC_URL"`
 	ProductSvcUrl string `mapstructure:"PRODUCT_SVC_URL"`
 	OrderSvcUrl   string `mapstructure:"ORDER_SVC_URL"`
+	AdminAuthSvcUrl   string `mapstructure:"ADMIN_AUTH_SVC_URL"`
 }
 
 func LoadConfig() (Config, error) {

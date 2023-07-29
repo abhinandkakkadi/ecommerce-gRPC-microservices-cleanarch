@@ -4,26 +4,15 @@ package user;
 
 option go_package = "./pkg/user/pb";
 
-service AuthService {
-  rpc SampleRequest(RegisterRequest) returns (RegisterResponse) {};
-  rpc UserSignUp(SingUpRequest) returns (SignUpResponse) {};
-  rpc UserLogin(LoginInRequest) returns (LoginResponse) {};
+service AdminAuthService {
+  rpc AdminSignUp(SingUpRequest) returns (SignUpResponse) {};
+  rpc AdminLogin(LoginInRequest) returns (LoginResponse) {};
 }
 
 // Register
-
-message RegisterRequest {
-  string request = 1;
-}
-
-message RegisterResponse {
-  string response = 1;
-}
-
 message SingUpRequest {
   string name = 1;
   string email = 2;
-  string phone = 3;
   string password = 4;
   string confirmpassword = 5;
 }

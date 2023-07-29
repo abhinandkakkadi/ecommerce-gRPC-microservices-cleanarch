@@ -58,3 +58,17 @@ func (u *userClient) SignUpRequest(userDetails models.UserDetails) (int, error) 
 	return int(res.Status), nil
 
 }
+
+func (u *userClient) LoginHandler(userAuthDetails models.UserLogin) (string,error) {
+
+	res, err := u.client.UserLogin(context.Background(),&pb.LoginInRequest{
+		Email: userAuthDetails.Email,
+		Password: userAuthDetails.Password,
+	})
+
+	if err != nil {
+		return "",err
+	}
+
+	return res.Token,nil
+}

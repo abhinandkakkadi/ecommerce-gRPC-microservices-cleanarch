@@ -7,6 +7,7 @@ option go_package = "./pkg/user/pb";
 service AuthService {
   rpc SampleRequest(RegisterRequest) returns (RegisterResponse) {};
   rpc UserSignUp(SingUpRequest) returns (SignUpResponse) {};
+  rpc UserLogin(LoginInRequest) returns (LoginResponse) {};
 }
 
 // Register
@@ -30,4 +31,15 @@ message SingUpRequest {
 message SignUpResponse {
   int64 status = 1;
   string error = 2;
+}
+
+message LoginInRequest {
+  string email = 1;
+  string password = 2;
+}
+
+message LoginResponse {
+  string token = 1;
+  string status = 2;
+  string error = 3;
 }

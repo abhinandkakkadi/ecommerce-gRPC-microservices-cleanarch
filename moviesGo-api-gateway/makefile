@@ -16,7 +16,7 @@ build: ${BINARY_DIR} ## Compile the code, build Executable File
 	$(GOCMD) build -o api -v ./cmd/api
 
 run: ## Start application
-	$(GOCMD) run ./cmd/api
+	$(GOCMD) run ./cmd
 
 test: ## Run tests
 	$(GOCMD) test ./... -cover
@@ -44,4 +44,4 @@ help: ## Display this help screen
 	@grep -h -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
 proto:
-	protoc pkg/pb/*.proto --go_out=plugins=grpc:.
+	protoc pkg/**/pb/*.proto --go_out=plugins=grpc:.

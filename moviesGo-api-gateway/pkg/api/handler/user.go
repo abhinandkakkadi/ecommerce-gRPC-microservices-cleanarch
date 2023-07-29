@@ -76,45 +76,45 @@ func (u *UserHandler) UserSignUp(c *gin.Context) {
 
 }
 
-// // @Summary LogIn functionality for user
-// // @Description LogIn functionality at the user side
-// // @Tags User Authentication
-// // @Accept json
-// // @Produce json
-// // @Param user body models.UserLogin true "User Details Input"
-// // @Success 200 {object} response.Response{}
-// // @Failure 500 {object} response.Response{}
-// // @Router /login [post]
-// func (u *UserHandler) LoginHandler(c *gin.Context) {
+// @Summary LogIn functionality for user
+// @Description LogIn functionality at the user side
+// @Tags User Authentication
+// @Accept json
+// @Produce json
+// @Param user body models.UserLogin true "User Details Input"
+// @Success 200 {object} response.Response{}
+// @Failure 500 {object} response.Response{}
+// @Router /login [post]
+func (u *UserHandler) LoginHandler(c *gin.Context) {
 
-// 	var user models.UserLogin
+	var user models.UserLogin
 
-// 	if err := c.ShouldBindJSON(&user); err != nil {
-// 		errRes := response.ClientResponse(http.StatusBadRequest, "fields provided are in wrong format", nil, err.Error())
-// 		c.JSON(http.StatusBadRequest, errRes)
-// 		return
-// 	}
+	if err := c.ShouldBindJSON(&user); err != nil {
+		errRes := response.ClientResponse(http.StatusBadRequest, "fields provided are in wrong format", nil, err.Error())
+		c.JSON(http.StatusBadRequest, errRes)
+		return
+	}
 
-// 	err := validator.New().Struct(user)
+	err := validator.New().Struct(user)
 
-// 	if err != nil {
-// 		errRes := response.ClientResponse(http.StatusBadRequest, "constraints not satisfied", nil, err.Error())
-// 		c.JSON(http.StatusBadRequest, errRes)
-// 		return
-// 	}
+	if err != nil {
+		errRes := response.ClientResponse(http.StatusBadRequest, "constraints not satisfied", nil, err.Error())
+		c.JSON(http.StatusBadRequest, errRes)
+		return
+	}
 
-// 	user_details, err := u.userUseCase.LoginHandler(user)
+	user_details, err := u.userClient.LoginHandler(user)
 
-// 	if err != nil {
-// 		errRes := response.ClientResponse(http.StatusInternalServerError, "User could not be logged in", nil, err.Error())
-// 		c.JSON(http.StatusInternalServerError, errRes)
-// 		return
-// 	}
+	if err != nil {
+		errRes := response.ClientResponse(http.StatusInternalServerError, "User could not be logged in", nil, err.Error())
+		c.JSON(http.StatusInternalServerError, errRes)
+		return
+	}
 
-// 	successRes := response.ClientResponse(http.StatusOK, "User successfully logged in", user_details, nil)
-// 	c.JSON(http.StatusOK, successRes)
+	successRes := response.ClientResponse(http.StatusOK, "User successfully logged in", user_details, nil)
+	c.JSON(http.StatusOK, successRes)
 
-// }
+}
 
 // // @Summary AddAddress functionality for user
 // // @Description AddAddress functionality at the user side

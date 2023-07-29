@@ -9,8 +9,8 @@ func UserRoutes(router *gin.RouterGroup, userHandler *handler.UserHandler) {
 
 	router.GET("/sample", userHandler.SampleRequest)
 	// // USER SIDE
-	// router.POST("/signup", userHandler.UserSignUp)
-	// router.POST("/login", userHandler.LoginHandler)
+	router.POST("/signup", userHandler.UserSignUp)
+	router.POST("/login", userHandler.LoginHandler)
 
 	// product := router.Group("/products")
 	// {

@@ -4,7 +4,6 @@ import (
 	"errors"
 	"fmt"
 
-	helper "github.com/abhinandkakkadi/ecommerce-MoviesGo-gin-clean-arch/pkg/helper"
 	interfaces "github.com/abhinandkakkadi/ecommerce-MoviesGo-gin-clean-arch/pkg/repository/interface"
 	services "github.com/abhinandkakkadi/ecommerce-MoviesGo-gin-clean-arch/pkg/usecase/interface"
 	"github.com/abhinandkakkadi/ecommerce-MoviesGo-gin-clean-arch/pkg/utils/models"
@@ -12,15 +11,13 @@ import (
 
 type cartUseCase struct {
 	cartRepository    interfaces.CartRepository
-	couponRepository  interfaces.CouponRepository
 	productRepository interfaces.ProductRepository
 }
 
-func NewCartUseCase(repository interfaces.CartRepository, couponRepo interfaces.CouponRepository, productRepo interfaces.ProductRepository) services.CartUseCase {
+func NewCartUseCase(repository interfaces.CartRepository, productRepo interfaces.ProductRepository) services.CartUseCase {
 
 	return &cartUseCase{
 		cartRepository:    repository,
-		couponRepository:  couponRepo,
 		productRepository: productRepo,
 	}
 
@@ -29,7 +26,7 @@ func NewCartUseCase(repository interfaces.CartRepository, couponRepo interfaces.
 func (cr *cartUseCase) AddToCart(product_id int, userID int) (models.CartResponse, error) {
 
 	//  to check whether the product exist
-	ok, genre, err := cr.cartRepository.CheckProduct(product_id)
+	ok, _ , err := cr.cartRepository.CheckProduct(product_id)
 	if err != nil {
 		return models.CartResponse{}, err
 	}
@@ -38,45 +35,6 @@ func (cr *cartUseCase) AddToCart(product_id int, userID int) (models.CartRespons
 		return models.CartResponse{}, errors.New("product does not exist")
 	}
 
-	combinedOfferDetails, err := cr.couponRepository.OfferDetails(product_id, genre)
-	if err != nil {
-		return models.CartResponse{}, err
-	}
-
-	offerDetails := helper.OfferHelper(combinedOfferDetails)
-
-	// Now check if the offer is already used by the user
-	if offerDetails.OfferType != "no offer" {
-
-		if offerDetails.OfferType == "product" {
-
-			offerDetails, err = cr.couponRepository.CheckIfProductOfferAlreadyUsed(offerDetails, product_id, userID)
-			if err != nil {
-				return models.CartResponse{}, err
-			}
-
-		} else if offerDetails.OfferType == "category" {
-
-			offerDetails, err = cr.couponRepository.CheckIfCategoryOfferAlreadyUsed(offerDetails, product_id, userID)
-			if err != nil {
-				return models.CartResponse{}, err
-			}
-		}
-	}
-
-	if offerDetails.OfferType == "product" {
-		err = cr.couponRepository.OfferUpdateProduct(offerDetails, userID)
-		if err != nil {
-			return models.CartResponse{}, err
-		}
-
-	} else if offerDetails.OfferType == "category" {
-		err = cr.couponRepository.OfferUpdateCategory(offerDetails, userID)
-		if err != nil {
-			return models.CartResponse{}, err
-		}
-
-	}
 
 	quantityOfProductInCart, err := cr.cartRepository.QuantityOfProductInCart(userID, product_id)
 	fmt.Println(quantityOfProductInCart)
@@ -103,13 +61,6 @@ func (cr *cartUseCase) AddToCart(product_id int, userID int) (models.CartRespons
 		return models.CartResponse{}, err
 	}
 
-	if offerDetails.OfferPrice != productPrice {
-
-		if quantityOfProductInCart < offerDetails.OfferLimit {
-			productPrice = offerDetails.OfferPrice
-		}
-
-	}
 
 	if quantityOfProductInCart == 0 {
 		err := cr.cartRepository.AddItemToCart(userID, product_id, 1, productPrice)
@@ -162,10 +113,6 @@ func (cr *cartUseCase) RemoveFromCart(product_id int, userID int) (models.CartRe
 	}
 
 	// if offer is applied decrement offer price, else decrement actual price
-	priceDecrement, err := cr.couponRepository.GetPriceBasedOnOffer(product_id, userID)
-	if err != nil {
-		return models.CartResponse{}, err
-	}
 
 	var cartDetails struct {
 		Quantity   int
@@ -185,17 +132,6 @@ func (cr *cartUseCase) RemoveFromCart(product_id int, userID int) (models.CartRe
 		if err != nil {
 			return models.CartResponse{}, err
 		}
-	}
-
-	if cartDetails.Quantity != 0 {
-
-		cartDetails.TotalPrice = cartDetails.TotalPrice - priceDecrement
-
-		err := cr.cartRepository.UpdateCartDetails(cartDetails, userID, product_id)
-		if err != nil {
-			return models.CartResponse{}, err
-		}
-
 	}
 
 	updatedCart, err := cr.cartRepository.RemoveFromCart(userID)
@@ -298,67 +234,4 @@ func (cr *cartUseCase) EmptyCart(userID int) (models.CartResponse, error) {
 	return cartResponse, nil
 }
 
-func (cr *cartUseCase) ApplyCoupon(coupon string, userID int) error {
 
-	cartExist, err := cr.cartRepository.DoesCartExist(userID)
-	if err != nil {
-		return err
-	}
-
-	if !cartExist {
-		return errors.New("cart empty, can't apply coupon")
-	}
-
-	couponExist, err := cr.couponRepository.CouponExist(coupon)
-	if err != nil {
-		return err
-	}
-
-	if !couponExist {
-		return errors.New("coupon does not exist")
-	}
-
-	couponValidity, err := cr.couponRepository.CouponValidity(coupon)
-	if err != nil {
-		return err
-	}
-
-	if !couponValidity {
-		return errors.New("coupon expired")
-	}
-
-	minDiscountPrice, err := cr.couponRepository.GetCouponMinimumAmount(coupon)
-	if err != nil {
-		return err
-	}
-
-	totalPriceFromCarts, err := cr.cartRepository.GetTotalPriceFromCart(userID)
-	if err != nil {
-		return err
-	}
-
-	// if the total Price is less than minDiscount price don't allow coupon to be added
-	if totalPriceFromCarts < minDiscountPrice {
-		return errors.New("coupon cannot be added as the total amount is less than minimum amount for coupon")
-	}
-
-	userAlreadyUsed, err := cr.couponRepository.DidUserAlreadyUsedThisCoupon(coupon, userID)
-	if err != nil {
-		return err
-	}
-
-	if userAlreadyUsed {
-		return errors.New("user already used this coupon")
-	}
-
-	couponStatus, err := cr.cartRepository.UpdateUsedCoupon(coupon, userID)
-	if err != nil {
-		return err
-	}
-
-	if couponStatus {
-		return nil
-	}
-	return errors.New("could not add the coupon")
-
-}

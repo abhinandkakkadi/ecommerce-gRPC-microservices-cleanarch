@@ -46,12 +46,10 @@ type OfferResponse struct {
 
 type ProductOfferBriefResponse struct {
 	ProductsBrief ProductsBrief
-	OfferResponse OfferResponse
 }
 
 type ProductOfferLongResponse struct {
 	ProductsResponse ProductResponse
-	OfferResponse    OfferResponse
 }
 
 type ReferralAmount struct {

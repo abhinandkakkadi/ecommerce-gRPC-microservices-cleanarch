@@ -7,7 +7,7 @@ import (
 	"github.com/abhinandkakkadi/ecommerce-MoviesGo-gin-clean-arch/cmd/api/docs"
 	_ "github.com/abhinandkakkadi/ecommerce-MoviesGo-gin-clean-arch/cmd/api/docs"
 	config "github.com/abhinandkakkadi/ecommerce-MoviesGo-gin-clean-arch/pkg/config"
-	di "github.com/abhinandkakkadi/ecommerce-MoviesGo-gin-clean-arch/pkg/di"
+	"github.com/abhinandkakkadi/ecommerce-MoviesGo-gin-clean-arch/pkg/di"
 	_ "github.com/swaggo/files"
 	_ "github.com/swaggo/gin-swagger"
 )
@@ -29,12 +29,12 @@ func main() {
 
 	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
 	errorLog := log.New(os.Stderr, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
-	server, productRepo, diErr := di.InitializeAPI(config)
+	server, diErr := di.InitializeAPI(config)
 
 	if diErr != nil {
 		log.Fatal("cannot start server: ", diErr)
 	} else {
-		server.Start(productRepo, infoLog, errorLog)
+		server.Start(infoLog, errorLog)
 	}
 
 }

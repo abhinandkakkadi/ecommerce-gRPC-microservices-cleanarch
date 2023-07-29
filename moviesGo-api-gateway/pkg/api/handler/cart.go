@@ -5,7 +5,6 @@ import (
 	"strconv"
 
 	services "github.com/abhinandkakkadi/ecommerce-MoviesGo-gin-clean-arch/pkg/usecase/interface"
-	"github.com/abhinandkakkadi/ecommerce-MoviesGo-gin-clean-arch/pkg/utils/models"
 	"github.com/abhinandkakkadi/ecommerce-MoviesGo-gin-clean-arch/pkg/utils/response"
 	"github.com/gin-gonic/gin"
 )
@@ -141,36 +140,3 @@ func (cr *CartHandler) EmptyCart(c *gin.Context) {
 	c.JSON(http.StatusOK, successRes)
 }
 
-// @Summary Apply coupon on Checkout Section
-// @Description Add coupon to get discount on Checkout section
-// @Tags User Checkout
-// @Accept json
-// @Produce json
-// @Security Bearer
-// @Param couponDetails body models.CouponAddUser true "Add coupon to order"
-// @Success 200 {object} response.Response{}
-// @Failure 500 {object} response.Response{}
-// @Router /coupon/apply [post]
-func (cr *CartHandler) ApplyCoupon(c *gin.Context) {
-
-	userID, _ := c.Get("user_id")
-	var couponDetails models.CouponAddUser
-
-	if err := c.ShouldBindJSON(&couponDetails); err != nil {
-		errorRes := response.ClientResponse(http.StatusBadRequest, "Could not bind the coupon", nil, err.Error())
-		c.JSON(http.StatusBadRequest, errorRes)
-		return
-	}
-
-	err := cr.cartUseCase.ApplyCoupon(couponDetails.CouponName, userID.(int))
-
-	if err != nil {
-		errorRes := response.ClientResponse(http.StatusInternalServerError, "coupon could not be added", nil, err.Error())
-		c.JSON(http.StatusInternalServerError, errorRes)
-		return
-	}
-
-	successRes := response.ClientResponse(http.StatusCreated, "Coupon added successfully", nil, nil)
-	c.JSON(http.StatusCreated, successRes)
-
-}

@@ -7,16 +7,15 @@
 package di
 
 import (
-	"github.com/abhinandkakkadi/ecommerce-MoviesGo-gin-clean-arch/pkg/api"
-	"github.com/abhinandkakkadi/ecommerce-MoviesGo-gin-clean-arch/pkg/api/handler"
-	"github.com/abhinandkakkadi/ecommerce-MoviesGo-gin-clean-arch/pkg/config"
-	interfaces "github.com/abhinandkakkadi/ecommerce-MoviesGo-gin-clean-arch/pkg/repository/interface"
-	"github.com/abhinandkakkadi/ecommerce-MoviesGo-gin-clean-arch/pkg/client"
+	"github.com/abhinandkakkadi/moviesgo-api-gateway/pkg/api"
+	"github.com/abhinandkakkadi/moviesgo-api-gateway/pkg/api/handler"
+	"github.com/abhinandkakkadi/moviesgo-api-gateway/pkg/config"
+	"github.com/abhinandkakkadi/moviesgo-api-gateway/pkg/client"
 )
 
 // Injectors from wire.go:
 
-func InitializeAPI(cfg config.Config) (*http.ServerHTTP, interfaces.ProductRepository, error) {
+func InitializeAPI(cfg config.Config) (*http.ServerHTTP,error) {
 
 	userClient := client.NewUserClient(cfg)
 
@@ -26,7 +25,7 @@ func InitializeAPI(cfg config.Config) (*http.ServerHTTP, interfaces.ProductRepos
 	// cartHandler := handler.NewCartHandler(cartuseCase)
 	// orderHandler := handler.NewOrderHandler(orderUseCase)
 
-	serverHTTP := http.NewServerHTTP(userHandler, productHandler, adminHandler, cartHandler, orderHandler)
+	serverHTTP := http.NewServerHTTP(userHandler)
 
 	return serverHTTP, nil
 }

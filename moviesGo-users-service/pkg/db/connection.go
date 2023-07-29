@@ -15,7 +15,7 @@ func ConnectDatabase(cfg config.Config) (*gorm.DB, error) {
 		SkipDefaultTransaction: true,
 	})
 
-	dbName := "moviesgo"
+	dbName := "users"
   err := db.Exec("CREATE DATABASE " + dbName).Error
   _ = err
 

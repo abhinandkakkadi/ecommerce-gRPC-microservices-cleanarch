@@ -1,9 +1,15 @@
 package handler
 
 import (
-	"github.com/gin-gonic/gin"
+	"fmt"
+	"net/http"
 
-	services "github.com/abhinandkakkadi/ecommerce-MoviesGo-gin-clean-arch/pkg/client/interface"
+	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator"
+
+	services "github.com/abhinandkakkadi/moviesgo-api-gateway/pkg/client/interface"
+	"github.com/abhinandkakkadi/moviesgo-api-gateway/pkg/utils/models"
+	"github.com/abhinandkakkadi/moviesgo-api-gateway/pkg/utils/response"
 )
 
 type UserHandler struct {
@@ -18,7 +24,13 @@ func NewUserHandler(userClient services.UserClient) *UserHandler {
 
 
 func (u *UserHandler) SampleRequest(c *gin.Context) {
-	
+
+		res,err := u.userClient.SampleRequest("Athira")
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		fmt.Println(res)
 	
 }
 
@@ -31,39 +43,39 @@ func (u *UserHandler) SampleRequest(c *gin.Context) {
 // @Success 200 {object} response.Response{}
 // @Failure 500 {object} response.Response{}
 // @Router /signup [post]
-// func (u *UserHandler) UserSignUp(c *gin.Context) {
+func (u *UserHandler) UserSignUp(c *gin.Context) {
 
-// 	var user models.UserDetails
+	var user models.UserDetails
 
-// 	// bind the user details to the struct
-// 	if err := c.ShouldBindJSON(&user); err != nil {
-// 		errRes := response.ClientResponse(http.StatusBadRequest, "fields provided are in wrong format", nil, err.Error())
-// 		c.JSON(http.StatusBadRequest, errRes)
-// 		return
-// 	}
+	// bind the user details to the struct
+	if err := c.ShouldBindJSON(&user); err != nil {
+		errRes := response.ClientResponse(http.StatusBadRequest, "fields provided are in wrong format", nil, err.Error())
+		c.JSON(http.StatusBadRequest, errRes)
+		return
+	}
 
-// 	// checking whether the data sent by the user has all the correct constraints specified by Users struct
-// 	err := validator.New().Struct(user)
-// 	if err != nil {
-// 		errRes := response.ClientResponse(http.StatusBadRequest, "constraints not satisfied", nil, err.Error())
-// 		c.JSON(http.StatusBadRequest,
-// 			errRes)
-// 		return
-// 	}
+	// checking whether the data sent by the user has all the correct constraints specified by Users struct
+	err := validator.New().Struct(user)
+	if err != nil {
+		errRes := response.ClientResponse(http.StatusBadRequest, "constraints not satisfied", nil, err.Error())
+		c.JSON(http.StatusBadRequest,
+			errRes)
+		return
+	}
 
-// 	// business logic goes inside this function
-// 	userCreated, err := u.userUseCase.UserSignUp(user)
+	// business logic goes inside this function
+	userCreated, err := u.userClient.SignUpRequest(user)
 
-// 	if err != nil {
-// 		errRes := response.ClientResponse(http.StatusInternalServerError, "User could not signed up", nil, err.Error())
-// 		c.JSON(http.StatusInternalServerError, errRes)
-// 		return
-// 	}
+	if err != nil {
+		errRes := response.ClientResponse(http.StatusInternalServerError, "User could not signed up", nil, err.Error())
+		c.JSON(http.StatusInternalServerError, errRes)
+		return
+	}
 
-// 	successRes := response.ClientResponse(http.StatusCreated, "User successfully signed up", userCreated, nil)
-// 	c.JSON(http.StatusCreated, successRes)
+	successRes := response.ClientResponse(http.StatusCreated, "User successfully signed up", userCreated, nil)
+	c.JSON(http.StatusCreated, successRes)
 
-// }
+}
 
 // // @Summary LogIn functionality for user
 // // @Description LogIn functionality at the user side

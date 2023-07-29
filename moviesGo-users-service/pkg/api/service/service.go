@@ -2,29 +2,38 @@ package service
 
 import (
 	"context"
+	"fmt"
 
-	"github.com/abhinandkakkadi/moviesgo-user-service/pkg/pb"
+	interfaces "github.com/abhinandkakkadi/moviesgo-user-service/pkg/usecase/interface"
+	"github.com/abhinandkakkadi/moviesgo-user-service/pkg/user/pb"
 )
 
 type UserServiceServer struct {
-	// userUseCase interfaces.UserUseCase
+	userUseCase interfaces.UserUseCase
 	pb.UnimplementedAuthServiceServer
 }
 
 
-func NewUserServiceServer() pb.AuthServiceServer {
+func NewUserServiceServer(useCase interfaces.UserUseCase) pb.AuthServiceServer {
 
 	return &UserServiceServer{
-		// userUseCase: useCase,
+		userUseCase: useCase,
 	}
 
 }
 
 
-func (u *UserServiceServer) SampleRequest(context.Context, *pb.RegisterRequest) (*pb.RegisterResponse, error) {
+func (u *UserServiceServer) SampleRequest(ctx context.Context,sampleRequest *pb.RegisterRequest) (*pb.RegisterResponse, error) {
 
+	fmt.Println("health check passed")
 	return &pb.RegisterResponse{
 		Response: "Abhinand",
 	},nil
 
+}
+
+func (u *UserServiceServer) UserSignUp(ctx context.Context,userDetails *pb.SingUpRequest) (*pb.SignUpResponse, error) {
+
+	fmt.Println("Reached SignUp handler")
+	
 }

@@ -1,6 +1,6 @@
 package domain
 
-import "github.com/abhinandkakkadi/ecommerce-MoviesGo-gin-clean-arch/pkg/utils/models"
+import "github.com/abhinandkakkadi/moviesgo-api-gateway/pkg/utils/models"
 
 type Admin struct {
 	ID       uint   `json:"id" gorm:"unique;not null"`

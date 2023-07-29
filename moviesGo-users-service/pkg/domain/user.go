@@ -8,7 +8,6 @@ type Users struct {
 	Email    string `json:"email" validate:"email"`
 	Password string `json:"password" validate:"min=8,max=20"`
 	Phone    string `json:"phone"`
-	Blocked  bool   `json:"blocked" gorm:"default:false"`
 }
 
 type Address struct {

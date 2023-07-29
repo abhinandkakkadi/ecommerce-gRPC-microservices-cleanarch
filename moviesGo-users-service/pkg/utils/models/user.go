@@ -1,13 +1,12 @@
 package models
 
-// type UserDetails struct {
-// 	Name            string `json:"name" binding:"required"`
-// 	Email           string `json:"email" binding:"required" validate:"email"`
-// 	Phone           string `json:"phone" binding:"required"`
-// 	Password        string `json:"password" binding:"required"`
-// 	ConfirmPassword string `json:"confirmpassword" binding:"required"`
-// 	ReferralCode    string `json:"referral_code"`
-// }
+type UserDetails struct {
+	Name            string 
+	Email           string 
+	Phone           string 
+	Password        string 
+	ConfirmPassword string 
+}
 
 // type UserLogin struct {
 // 	Email    string `json:"email" binding:"required" validate:"email"`

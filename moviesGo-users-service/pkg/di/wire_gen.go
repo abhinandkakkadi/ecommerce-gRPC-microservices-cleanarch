@@ -21,10 +21,10 @@ func InitializeAPI(cfg config.Config) (*api.Server,error) {
 	// 	return nil,err
 	// }
 
-	// userRepository := repository.NewUserRepository(gormDB)
-	// userUseCase := usecase.NewUserUseCase(userRepository)
+	userRepository := repository.NewUserRepository(gormDB)
+	userUseCase := usecase.NewUserUseCase(userRepository)
 	// userServiceServer := service.NewUserServiceServer(userUseCase)
-	userServiceServer := service.NewUserServiceServer()
+	userServiceServer := service.NewUserServiceServer(userUseCase)
 	grpcServer, err := api.NewGRPCServer(cfg,userServiceServer)
 	if err != nil {
 		return &api.Server{},err

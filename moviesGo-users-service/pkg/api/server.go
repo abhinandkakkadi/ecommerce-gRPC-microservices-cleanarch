@@ -5,7 +5,7 @@ import (
 	"net"
 
 	"github.com/abhinandkakkadi/moviesgo-user-service/pkg/config"
-	"github.com/abhinandkakkadi/moviesgo-user-service/pkg/pb"
+	"github.com/abhinandkakkadi/moviesgo-user-service/pkg/user/pb"
 	"google.golang.org/grpc"
 )
 

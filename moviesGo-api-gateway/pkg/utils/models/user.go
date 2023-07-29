@@ -6,7 +6,6 @@ type UserDetails struct {
 	Phone           string `json:"phone" binding:"required"`
 	Password        string `json:"password" binding:"required"`
 	ConfirmPassword string `json:"confirmpassword" binding:"required"`
-	ReferralCode    string `json:"referral_code"`
 }
 
 type UserLogin struct {

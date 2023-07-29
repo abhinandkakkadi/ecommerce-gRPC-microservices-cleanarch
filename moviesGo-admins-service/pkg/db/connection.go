@@ -3,8 +3,8 @@ package db
 import (
 	"fmt"
 
-	"github.com/abhinandkakkadi/moviesgo-user-service/pkg/config"
-	"github.com/abhinandkakkadi/moviesgo-user-service/pkg/domain"
+	"github.com/abhinandkakkadi/moviesgo-admin-service/pkg/config"
+	"github.com/abhinandkakkadi/moviesgo-admin-service/pkg/domain"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -19,7 +19,7 @@ func ConnectDatabase(cfg config.Config) (*gorm.DB, error) {
 	// err := db.Exec("CREATE DATABASE " + dbName).Error
 	// _ = err
 
-	db.AutoMigrate(&domain.Users{})
+	db.AutoMigrate(&domain.Admin{})
 	return db, dbErr
 
 }

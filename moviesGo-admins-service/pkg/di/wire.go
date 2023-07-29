@@ -4,16 +4,19 @@
 package di
 
 import (
-	http "github.com/abhinandkakkadi/moviesgo-user-service/pkg/api"
-	"github.com/abhinandkakkadi/moviesgo-user-service/pkg/api/handler"
-	config "github.com/abhinandkakkadi/moviesgo-user-service/pkg/config"
-	db "github.com/abhinandkakkadi/moviesgo-user-service/pkg/db"
-	repository "github.com/abhinandkakkadi/moviesgo-user-service/pkg/repository"
-	usecase "github.com/abhinandkakkadi/moviesgo-user-service/pkg/usecase"
+	"github.com/abhinandkakkadi/moviesgo-admin-service/pkg/api"
+	http "github.com/abhinandkakkadi/moviesgo-admin-service/pkg/api"
+	"github.com/abhinandkakkadi/moviesgo-admin-service/pkg/api/service"
+	config "github.com/abhinandkakkadi/moviesgo-admin-service/pkg/config"
+	db "github.com/abhinandkakkadi/moviesgo-admin-service/pkg/db"
+	repository "github.com/abhinandkakkadi/moviesgo-admin-service/pkg/repository"
+	usecase "github.com/abhinandkakkadi/moviesgo-admin-service/pkg/usecase"
 	"github.com/google/wire"
 )
 
 func InitializeAPI(cfg config.Config) (*http.ServerHTTP, error) {
-	wire.Build(db.ConnectDatabase, repository.NewUserRepository, usecase.NewUserUseCase, handler.NewUserHandler, http.NewServerHTTP, repository.NewProductRepository, usecase.NewProductUseCase, handler.NewProductHandler, handler.NewOtpHandler, usecase.NewOtpUseCase, repository.NewOtpRepository, repository.NewAdminRepository, usecase.NewAdminUseCase, handler.NewAdminHandler, handler.NewCartHandler, usecase.NewCartUseCase, repository.NewCartRepository)
+	wire.Build(db.ConnectDatabase, repository.NewAdminRepository,usecase.NewAdminUseCase,service.NewAdminServiceServer,api.NewGRPCServer)
 	return &http.ServerHTTP{}, nil
 }
+
+

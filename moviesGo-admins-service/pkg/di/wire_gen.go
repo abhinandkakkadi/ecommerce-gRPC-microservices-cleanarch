@@ -7,12 +7,12 @@
 package di
 
 import (
-	"github.com/abhinandkakkadi/moviesgo-user-service/pkg/api"
-	"github.com/abhinandkakkadi/moviesgo-user-service/pkg/api/service"
-	"github.com/abhinandkakkadi/moviesgo-user-service/pkg/config"
-	"github.com/abhinandkakkadi/moviesgo-user-service/pkg/repository"
-	"github.com/abhinandkakkadi/moviesgo-user-service/pkg/usecase"
-	"github.com/abhinandkakkadi/moviesgo-user-service/pkg/db"
+	"github.com/abhinandkakkadi/moviesgo-admin-service/pkg/api"
+	"github.com/abhinandkakkadi/moviesgo-admin-service/pkg/api/service"
+	"github.com/abhinandkakkadi/moviesgo-admin-service/pkg/config"
+	"github.com/abhinandkakkadi/moviesgo-admin-service/pkg/db"
+	"github.com/abhinandkakkadi/moviesgo-admin-service/pkg/repository"
+	"github.com/abhinandkakkadi/moviesgo-admin-service/pkg/usecase"
 )
 
 // Injectors from wire.go:
@@ -21,17 +21,19 @@ func InitializeAPI(cfg config.Config) (*api.Server, error) {
 
 	gormDB, err := db.ConnectDatabase(cfg)
 	if err != nil {
-		return nil,err
+		return nil, err
 	}
 
-	userRepository := repository.NewUserRepository(gormDB)
-	userUseCase := usecase.NewUserUseCase(userRepository)
-	// userServiceServer := service.NewUserServiceServer(userUseCase)
-	userServiceServer := service.NewUserServiceServer(userUseCase)
-	grpcServer, err := api.NewGRPCServer(cfg, userServiceServer)
+	adminRepository := repository.NewAdminRepository(gormDB)
+	adminUseCase := usecase.NewAdminUseCase(adminRepository)
+
+	adminServiceServer := service.NewAdminServiceServer(adminUseCase)
+	grpcServer, err := api.NewGRPCServer(cfg, adminServiceServer)
+
 	if err != nil {
 		return &api.Server{}, err
 	}
 
 	return grpcServer, nil
+
 }

@@ -2,83 +2,66 @@ package service
 
 import (
 	"context"
-	"fmt"
 
-	interfaces "github.com/abhinandkakkadi/moviesgo-user-service/pkg/usecase/interface"
-	"github.com/abhinandkakkadi/moviesgo-user-service/pkg/user/pb"
-	"github.com/abhinandkakkadi/moviesgo-user-service/pkg/utils/models"
+	"github.com/abhinandkakkadi/moviesgo-admin-service/pkg/admin/pb"
+	interfaces "github.com/abhinandkakkadi/moviesgo-admin-service/pkg/usecase/interface"
+	"github.com/abhinandkakkadi/moviesgo-admin-service/pkg/utils/models"
 )
 
-
-type UserServiceServer struct {
-	userUseCase interfaces.UserUseCase
-	pb.UnimplementedAuthServiceServer
+type AdminServiceServer struct {
+	adminUseCase interfaces.AdminUseCase
+	pb.UnimplementedAdminAuthServiceServer
 }
 
+func NewAdminServiceServer(useCase interfaces.AdminUseCase) pb.AdminAuthServiceServer {
 
-func NewUserServiceServer(useCase interfaces.UserUseCase) pb.AuthServiceServer {
-
-	return &UserServiceServer{
-		userUseCase: useCase,
+	return &AdminServiceServer{
+		adminUseCase: useCase,
 	}
 
 }
 
-func (u *UserServiceServer) SampleRequest(ctx context.Context, sampleRequest *pb.RegisterRequest) (*pb.RegisterResponse, error) {
+func (a *AdminServiceServer) AdminSignUp(ctx context.Context,userSignUpDetails *pb.AdminSingUpRequest) (*pb.AdminSignUpResponse, error) {
 
-	fmt.Println("health check passed")
-	return &pb.RegisterResponse{
-		Response: "Abhinand",
-	}, nil
-
-}
-
-func (u *UserServiceServer) UserSignUp(ctx context.Context, userDetails *pb.SingUpRequest) (*pb.SignUpResponse, error) {
-
-	fmt.Println("Reached SignUp handler")
-	userSignUpDetails := models.UserDetails{
-		Name: userDetails.Name,
-		Email: userDetails.Email,
-		Phone: userDetails.Phone,
-		Password: userDetails.Password,
-		ConfirmPassword: userDetails.Confirmpassword,
+	adminCreateDetails := models.AdminSignUp{
+		Name: userSignUpDetails.Name,
+		Email: userSignUpDetails.Email,
+		Password: userSignUpDetails.Password,
 	}
 
-	status,err := u.userUseCase.UserSignUp(userSignUpDetails)
+	status,err := a.adminUseCase.AdminSignUp(adminCreateDetails)
 	if err != nil {
-		return &pb.SignUpResponse{
+		return &pb.AdminSignUpResponse{
 			Status: int64(status),
 			Error: err.Error(),
 		},nil
-
 	}
 
-	return &pb.SignUpResponse{
+	return &pb.AdminSignUpResponse{
 		Status: int64(status),
-	},nil
-
-}
-
-
-func (u *UserServiceServer) UserLogin(ctx context.Context,user *pb.LoginInRequest) (*pb.LoginResponse, error) {
-
-	
-	userLoginDetails := models.UserLogin{
-		Email: user.Email,
-		Password: user.Password,
-	}
-
-	token,err := u.userUseCase.UserLogin(userLoginDetails)
-	if err != nil {
-		return &pb.LoginResponse{
-			Token: "",
-			Error: err.Error(),
-		},nil
-	}
-
-	return &pb.LoginResponse{
-		Token: token,
 		Error: "",
 	},nil
 
 }
+
+func (a *AdminServiceServer) AdminLogin(ctx context.Context,adminLoginDetails *pb.AdminLoginInRequest) (*pb.AdminLoginResponse, error) {
+
+	adminLogin := models.AdminLogin{
+		Email: adminLoginDetails.Email,
+		Password: adminLoginDetails.Password,
+	}
+
+	token,err := a.adminUseCase.AdminLogin(adminLogin)
+	if err != nil {
+		return &pb.AdminLoginResponse{
+			Error: err.Error(),	
+		},nil
+	}
+
+	return &pb.AdminLoginResponse{
+		Token: token,
+	},nil
+	
+}
+
+

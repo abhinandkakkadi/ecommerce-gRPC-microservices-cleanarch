@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"net"
 
-	"github.com/abhinandkakkadi/moviesgo-user-service/pkg/config"
-	"github.com/abhinandkakkadi/moviesgo-user-service/pkg/user/pb"
+	"github.com/abhinandkakkadi/moviesgo-admin-service/pkg/admin/pb"
+	"github.com/abhinandkakkadi/moviesgo-admin-service/pkg/config"
 	"google.golang.org/grpc"
 )
 
@@ -14,7 +14,7 @@ type Server struct {
 	listener net.Listener
 }
 
-func NewGRPCServer(cfg config.Config, server pb.AuthServiceServer) (*Server, error) {
+func NewGRPCServer(cfg config.Config, server pb.AdminAuthServiceServer) (*Server, error) {
 
 	lis, err := net.Listen("tcp", cfg.Port)
 	if err != nil {
@@ -22,7 +22,7 @@ func NewGRPCServer(cfg config.Config, server pb.AuthServiceServer) (*Server, err
 	}
 
 	newServer := grpc.NewServer()
-	pb.RegisterAuthServiceServer(newServer, server)
+	pb.RegisterAdminAuthServiceServer(newServer, server)
 
 	return &Server{
 		server:   newServer,
@@ -31,6 +31,6 @@ func NewGRPCServer(cfg config.Config, server pb.AuthServiceServer) (*Server, err
 }
 
 func (c *Server) Start() error {
-	fmt.Println("grpc server listening on port :50051")
+	fmt.Println("grpc server listening on port :50054")
 	return c.server.Serve(c.listener)
 }

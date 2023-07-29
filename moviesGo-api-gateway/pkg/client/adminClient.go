@@ -2,6 +2,7 @@ package client
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
 	"github.com/abhinandkakkadi/moviesgo-api-gateway/pkg/admin/pb"
@@ -35,13 +36,13 @@ func NewAdminClient(cfg config.Config) interfaces.AdminClient {
 
 func (a *adminClient) LoginHandler(adminDetails models.AdminLogin) (string,error) {
 
-	res, err := a.adminClient.AdminLogin(context.Background(),&pb.LoginInRequest{
+	res, _ := a.adminClient.AdminLogin(context.Background(),&pb.AdminLoginInRequest{
 		Email: adminDetails.Email,
 		Password: adminDetails.Password,
 	})
 
-	if err != nil {
-		return "",err
+	if res.Error != "" {
+		return "",errors.New(res.Error)
 	}
 
 	return res.Token,nil
@@ -51,7 +52,7 @@ func (a *adminClient) LoginHandler(adminDetails models.AdminLogin) (string,error
 
 func (a *adminClient) CreateAdmin(admin models.AdminSignUp) (int,error) {
 
-	res, err := a.adminClient.AdminSignUp(context.Background(),&pb.SingUpRequest{
+	res, err := a.adminClient.AdminSignUp(context.Background(),&pb.AdminSingUpRequest{
 		Name: admin.Name,
 		Email: admin.Email,
 		Password: admin.Password,
@@ -63,4 +64,5 @@ func (a *adminClient) CreateAdmin(admin models.AdminSignUp) (int,error) {
 	}
 
 	return int(res.Status),nil
+
 }

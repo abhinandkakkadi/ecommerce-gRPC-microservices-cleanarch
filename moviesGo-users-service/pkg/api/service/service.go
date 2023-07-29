@@ -13,7 +13,6 @@ type UserServiceServer struct {
 	pb.UnimplementedAuthServiceServer
 }
 
-
 func NewUserServiceServer(useCase interfaces.UserUseCase) pb.AuthServiceServer {
 
 	return &UserServiceServer{
@@ -22,18 +21,17 @@ func NewUserServiceServer(useCase interfaces.UserUseCase) pb.AuthServiceServer {
 
 }
 
-
-func (u *UserServiceServer) SampleRequest(ctx context.Context,sampleRequest *pb.RegisterRequest) (*pb.RegisterResponse, error) {
+func (u *UserServiceServer) SampleRequest(ctx context.Context, sampleRequest *pb.RegisterRequest) (*pb.RegisterResponse, error) {
 
 	fmt.Println("health check passed")
 	return &pb.RegisterResponse{
 		Response: "Abhinand",
-	},nil
+	}, nil
 
 }
 
-func (u *UserServiceServer) UserSignUp(ctx context.Context,userDetails *pb.SingUpRequest) (*pb.SignUpResponse, error) {
+func (u *UserServiceServer) UserSignUp(ctx context.Context, userDetails *pb.SingUpRequest) (*pb.SignUpResponse, error) {
 
 	fmt.Println("Reached SignUp handler")
-	
+
 }

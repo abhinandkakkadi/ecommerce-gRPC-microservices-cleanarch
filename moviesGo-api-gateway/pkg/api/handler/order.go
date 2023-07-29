@@ -100,8 +100,6 @@ package handler
 
 // }
 
-
-
 // // @Summary Get All order details for admin
 // // @Description Get all order details to the admin side
 // // @Tags Admin Order Management
@@ -135,5 +133,3 @@ package handler
 // 	c.JSON(http.StatusOK, successRes)
 
 // }
-
-

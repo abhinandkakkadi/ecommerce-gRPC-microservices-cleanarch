@@ -14,7 +14,7 @@ import (
 
 // Injectors from wire.go:
 
-func InitializeAPI(cfg config.Config) (*api.Server,error) {
+func InitializeAPI(cfg config.Config) (*api.Server, error) {
 
 	// gormDB, err := db.ConnectDatabase(cfg)
 	// if err != nil {
@@ -25,9 +25,9 @@ func InitializeAPI(cfg config.Config) (*api.Server,error) {
 	userUseCase := usecase.NewUserUseCase(userRepository)
 	// userServiceServer := service.NewUserServiceServer(userUseCase)
 	userServiceServer := service.NewUserServiceServer(userUseCase)
-	grpcServer, err := api.NewGRPCServer(cfg,userServiceServer)
+	grpcServer, err := api.NewGRPCServer(cfg, userServiceServer)
 	if err != nil {
-		return &api.Server{},err
+		return &api.Server{}, err
 	}
 
 	return grpcServer, nil

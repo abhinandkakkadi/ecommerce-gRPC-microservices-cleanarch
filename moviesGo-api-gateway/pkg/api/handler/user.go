@@ -22,16 +22,15 @@ func NewUserHandler(userClient services.UserClient) *UserHandler {
 	}
 }
 
-
 func (u *UserHandler) SampleRequest(c *gin.Context) {
 
-		res,err := u.userClient.SampleRequest("Athira")
-		if err != nil {
-			fmt.Println(err)
-		}
+	res, err := u.userClient.SampleRequest("Athira")
+	if err != nil {
+		fmt.Println(err)
+	}
 
-		fmt.Println(res)
-	
+	fmt.Println(res)
+
 }
 
 // @Summary SignUp functionality for user
@@ -160,7 +159,6 @@ func (u *UserHandler) UserSignUp(c *gin.Context) {
 
 // }
 
-
 // // @Summary Checkout Order
 // // @Description Checkout at the user side
 // // @Tags User Checkout
@@ -184,8 +182,6 @@ func (u *UserHandler) UserSignUp(c *gin.Context) {
 // 	successRes := response.ClientResponse(http.StatusOK, "Checkout Page loaded successfully", checkoutDetails, nil)
 // 	c.JSON(http.StatusOK, successRes)
 // }
-
-
 
 // // @Summary Get all address for the user
 // // @Description Display all the added user addresses
@@ -211,5 +207,3 @@ func (u *UserHandler) UserSignUp(c *gin.Context) {
 // 	c.JSON(http.StatusOK, successRes)
 
 // }
-
-

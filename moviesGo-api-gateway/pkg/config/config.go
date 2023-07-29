@@ -12,7 +12,6 @@ type Config struct {
 	OrderSvcUrl   string `mapstructure:"ORDER_SVC_URL"`
 }
 
-
 func LoadConfig() (Config, error) {
 	var config Config
 

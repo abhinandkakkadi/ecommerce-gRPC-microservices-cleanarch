@@ -1,11 +1,11 @@
 package models
 
 type UserDetails struct {
-	Name            string 
-	Email           string 
-	Phone           string 
-	Password        string 
-	ConfirmPassword string 
+	Name            string
+	Email           string
+	Phone           string
+	Password        string
+	ConfirmPassword string
 }
 
 // type UserLogin struct {

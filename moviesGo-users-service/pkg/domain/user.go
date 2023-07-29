@@ -22,5 +22,3 @@ type Address struct {
 	State     string `json:"state" validate:"required"`
 	Pin       string `json:"pin" validate:"required"`
 }
-
-

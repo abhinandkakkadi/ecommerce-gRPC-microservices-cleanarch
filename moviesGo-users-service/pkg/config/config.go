@@ -12,10 +12,11 @@ type Config struct {
 	DBPassword string `mapstructure:"DB_PASSWORD"`
 	Port       string `mapstructure:"PORT"`
 }
+
 func LoadConfig() (config Config, err error) {
 	viper.AddConfigPath("./")
 	viper.SetConfigFile(".env")
-	
+
 	err = viper.ReadInConfig()
 
 	if err != nil {

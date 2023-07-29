@@ -28,7 +28,7 @@ package routes
 // 		{
 // 			orders.GET("", orderHandler.GetAllOrderDetailsForAdmin)
 // 			orders.GET("/:page", orderHandler.GetAllOrderDetailsForAdmin)
-			
+
 // 		}
 
 // }

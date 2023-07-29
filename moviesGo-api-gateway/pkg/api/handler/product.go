@@ -150,4 +150,3 @@ package handler
 // 	c.JSON(http.StatusOK, successRes)
 
 // }
-

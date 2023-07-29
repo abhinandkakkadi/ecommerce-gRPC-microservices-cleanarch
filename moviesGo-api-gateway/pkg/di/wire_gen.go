@@ -9,13 +9,13 @@ package di
 import (
 	"github.com/abhinandkakkadi/moviesgo-api-gateway/pkg/api"
 	"github.com/abhinandkakkadi/moviesgo-api-gateway/pkg/api/handler"
-	"github.com/abhinandkakkadi/moviesgo-api-gateway/pkg/config"
 	"github.com/abhinandkakkadi/moviesgo-api-gateway/pkg/client"
+	"github.com/abhinandkakkadi/moviesgo-api-gateway/pkg/config"
 )
 
 // Injectors from wire.go:
 
-func InitializeAPI(cfg config.Config) (*http.ServerHTTP,error) {
+func InitializeAPI(cfg config.Config) (*http.ServerHTTP, error) {
 
 	userClient := client.NewUserClient(cfg)
 

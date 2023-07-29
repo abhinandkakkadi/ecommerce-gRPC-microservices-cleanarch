@@ -10,13 +10,13 @@ import (
 )
 
 type Server struct {
-	server  *grpc.Server
+	server   *grpc.Server
 	listener net.Listener
 }
 
 func NewGRPCServer(cfg config.Config, server pb.AuthServiceServer) (*Server, error) {
 
-	lis, err := net.Listen("tcp",cfg.Port)
+	lis, err := net.Listen("tcp", cfg.Port)
 	if err != nil {
 		return nil, err
 	}
@@ -25,7 +25,7 @@ func NewGRPCServer(cfg config.Config, server pb.AuthServiceServer) (*Server, err
 	pb.RegisterAuthServiceServer(newServer, server)
 
 	return &Server{
-		server:  newServer,
+		server:   newServer,
 		listener: lis,
 	}, nil
 }

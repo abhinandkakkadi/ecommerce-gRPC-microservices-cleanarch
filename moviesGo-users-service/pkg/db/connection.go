@@ -16,8 +16,8 @@ func ConnectDatabase(cfg config.Config) (*gorm.DB, error) {
 	})
 
 	dbName := "users"
-  err := db.Exec("CREATE DATABASE " + dbName).Error
-  _ = err
+	err := db.Exec("CREATE DATABASE " + dbName).Error
+	_ = err
 
 	db.AutoMigrate(&domain.Users{})
 	return db, dbErr

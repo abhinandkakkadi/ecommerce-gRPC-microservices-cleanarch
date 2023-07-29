@@ -139,4 +139,3 @@ package handler
 // 	successRes := response.ClientResponse(http.StatusOK, "cart items displayed successfully", emptyCart, nil)
 // 	c.JSON(http.StatusOK, successRes)
 // }
-

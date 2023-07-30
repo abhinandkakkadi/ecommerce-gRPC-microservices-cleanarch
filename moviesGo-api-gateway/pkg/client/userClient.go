@@ -3,11 +3,13 @@ package client
 import (
 	"context"
 	"fmt"
+	"net/http"
 
 	services "github.com/abhinandkakkadi/moviesgo-api-gateway/pkg/client/interface"
 	config "github.com/abhinandkakkadi/moviesgo-api-gateway/pkg/config"
 	"github.com/abhinandkakkadi/moviesgo-api-gateway/pkg/user/pb"
 	"github.com/abhinandkakkadi/moviesgo-api-gateway/pkg/utils/models"
+	"github.com/gin-gonic/gin"
 	"google.golang.org/grpc"
 )
 
@@ -27,6 +29,26 @@ func NewUserClient(cfg config.Config) services.UserClient {
 	return &userClient{
 		client: grpcClient,
 	}
+
+}
+
+func (u *userClient) UserAuthRequired(c *gin.Context)  {
+
+	token := c.GetHeader("authorization")
+
+	userID, err := u.client.ValidateUser(context.Background(),&pb.ValidateRequest{
+		Token: token,
+	})
+
+	fmt.Println("the error is: ",err)
+
+	if err != nil {
+		c.AbortWithStatus(http.StatusUnauthorized)
+		return
+	}
+
+	c.Set("userID",userID.UserID)
+
 
 }
 

@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 	"fmt"
+	"net/http"
 
 	interfaces "github.com/abhinandkakkadi/moviesgo-user-service/pkg/usecase/interface"
 	"github.com/abhinandkakkadi/moviesgo-user-service/pkg/user/pb"
@@ -81,4 +82,22 @@ func (u *UserServiceServer) UserLogin(ctx context.Context,user *pb.LoginInReques
 		Error: "",
 	},nil
 
+}
+
+func (u *UserServiceServer) ValidateUser(ctx context.Context, token *pb.ValidateRequest) (*pb.ValidateResponse, error) {
+
+	signedToken := token.Token
+	userID, err := u.userUseCase.ValidateUser(signedToken)
+	if err != nil {
+		return &pb.ValidateResponse{
+			UserID: 0,
+			Status: http.StatusUnauthorized,
+		},err
+	}
+
+	return &pb.ValidateResponse{
+		UserID: int64(userID),
+		Status: http.StatusOK,
+	},nil
+	
 }

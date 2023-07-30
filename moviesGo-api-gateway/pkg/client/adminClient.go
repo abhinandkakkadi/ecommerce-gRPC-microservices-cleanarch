@@ -4,11 +4,14 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"net/http"
 
 	"github.com/abhinandkakkadi/moviesgo-api-gateway/pkg/admin/pb"
 	interfaces "github.com/abhinandkakkadi/moviesgo-api-gateway/pkg/client/interface"
 	"github.com/abhinandkakkadi/moviesgo-api-gateway/pkg/config"
 	"github.com/abhinandkakkadi/moviesgo-api-gateway/pkg/utils/models"
+	"github.com/abhinandkakkadi/moviesgo-api-gateway/pkg/utils/response"
+	"github.com/gin-gonic/gin"
 	"google.golang.org/grpc"
 )
 
@@ -29,6 +32,26 @@ func NewAdminClient(cfg config.Config) interfaces.AdminClient {
 	return &adminClient{
 		adminClient: grpcClient,
 	}
+
+}
+
+func (a *adminClient) AdminAuthRequired(c *gin.Context) {
+
+	token := c.GetHeader("authorization")
+
+	res,err := a.adminClient.ValidateAdmin(context.Background(),&pb.AdminValidateRequest{
+		Token: token,
+	})
+
+	if err != nil {
+		c.AbortWithStatus(int(res.Status))
+		errRes := response.ClientResponse(http.StatusUnauthorized, "client unauthorized to access this route", nil, err.Error())
+		c.JSON(http.StatusBadRequest, errRes)
+		return
+	}
+	
+
+	c.Next()
 
 }
 

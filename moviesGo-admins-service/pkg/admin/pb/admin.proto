@@ -7,6 +7,7 @@ option go_package = "./pkg/admin/pb";
 service AdminAuthService {
   rpc AdminSignUp(AdminSingUpRequest) returns (AdminSignUpResponse) {};
   rpc AdminLogin(AdminLoginInRequest) returns (AdminLoginResponse) {};
+  rpc ValidateAdmin(AdminValidateRequest) returns (AdminValidateResponse) {};
 }
 
 // Register
@@ -31,4 +32,12 @@ message AdminLoginResponse {
   string token = 1;
   string status = 2;
   string error = 3;
+}
+
+message AdminValidateRequest {
+  string token = 1;
+}
+
+message AdminValidateResponse {
+  int64 status = 1;
 }

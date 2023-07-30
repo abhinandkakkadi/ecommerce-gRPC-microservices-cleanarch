@@ -1,6 +1,7 @@
 package helper
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/abhinandkakkadi/moviesgo-admin-service/pkg/domain"
@@ -35,4 +36,18 @@ func GenerateTokenAdmin(admin domain.Admin) (string, error) {
 
 	return tokenString, nil
 
+}
+
+func ValidateAdminToken(token string) (error) {
+
+	_, err := jwt.Parse(token, func(t *jwt.Token) (interface{}, error) {
+		if _, ok := t.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, fmt.Errorf("unexpected signing method: %v", t.Header["alg"])
+		}
+
+		return []byte("12345678"), nil
+	})
+
+	return err
+	
 }

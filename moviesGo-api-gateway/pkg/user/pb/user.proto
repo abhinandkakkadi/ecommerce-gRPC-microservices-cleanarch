@@ -8,6 +8,7 @@ service AuthService {
   rpc SampleRequest(RegisterRequest) returns (RegisterResponse) {};
   rpc UserSignUp(SingUpRequest) returns (SignUpResponse) {};
   rpc UserLogin(LoginInRequest) returns (LoginResponse) {};
+  rpc ValidateUser(ValidateRequest) returns (ValidateResponse) {};
 }
 
 // Register
@@ -42,4 +43,13 @@ message LoginResponse {
   string token = 1;
   string status = 2;
   string error = 3;
+}
+
+message ValidateRequest {
+  string token = 1;
+}
+
+message ValidateResponse {
+  int64 userID = 1;
+  int64 status = 2;
 }

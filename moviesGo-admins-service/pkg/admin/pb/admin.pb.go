@@ -269,6 +269,100 @@ func (x *AdminLoginResponse) GetError() string {
 	return ""
 }
 
+type AdminValidateRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Token string `protobuf:"bytes,1,opt,name=token,proto3" json:"token,omitempty"`
+}
+
+func (x *AdminValidateRequest) Reset() {
+	*x = AdminValidateRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_pkg_admin_pb_admin_proto_msgTypes[4]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *AdminValidateRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AdminValidateRequest) ProtoMessage() {}
+
+func (x *AdminValidateRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_pkg_admin_pb_admin_proto_msgTypes[4]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AdminValidateRequest.ProtoReflect.Descriptor instead.
+func (*AdminValidateRequest) Descriptor() ([]byte, []int) {
+	return file_pkg_admin_pb_admin_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *AdminValidateRequest) GetToken() string {
+	if x != nil {
+		return x.Token
+	}
+	return ""
+}
+
+type AdminValidateResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Status int64 `protobuf:"varint,1,opt,name=status,proto3" json:"status,omitempty"`
+}
+
+func (x *AdminValidateResponse) Reset() {
+	*x = AdminValidateResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_pkg_admin_pb_admin_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *AdminValidateResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AdminValidateResponse) ProtoMessage() {}
+
+func (x *AdminValidateResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_pkg_admin_pb_admin_proto_msgTypes[5]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AdminValidateResponse.ProtoReflect.Descriptor instead.
+func (*AdminValidateResponse) Descriptor() ([]byte, []int) {
+	return file_pkg_admin_pb_admin_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *AdminValidateResponse) GetStatus() int64 {
+	if x != nil {
+		return x.Status
+	}
+	return 0
+}
+
 var File_pkg_admin_pb_admin_proto protoreflect.FileDescriptor
 
 var file_pkg_admin_pb_admin_proto_rawDesc = []byte{
@@ -297,18 +391,29 @@ var file_pkg_admin_pb_admin_proto_rawDesc = []byte{
 	0x65, 0x6e, 0x12, 0x16, 0x0a, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x18, 0x02, 0x20, 0x01,
 	0x28, 0x09, 0x52, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x12, 0x14, 0x0a, 0x05, 0x65, 0x72,
 	0x72, 0x6f, 0x72, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x65, 0x72, 0x72, 0x6f, 0x72,
-	0x32, 0xa1, 0x01, 0x0a, 0x10, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x41, 0x75, 0x74, 0x68, 0x53, 0x65,
-	0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x46, 0x0a, 0x0b, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x53, 0x69,
-	0x67, 0x6e, 0x55, 0x70, 0x12, 0x19, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x2e, 0x41, 0x64, 0x6d,
-	0x69, 0x6e, 0x53, 0x69, 0x6e, 0x67, 0x55, 0x70, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a,
-	0x1a, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x2e, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x53, 0x69, 0x67,
-	0x6e, 0x55, 0x70, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x45, 0x0a,
-	0x0a, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x4c, 0x6f, 0x67, 0x69, 0x6e, 0x12, 0x1a, 0x2e, 0x61, 0x64,
-	0x6d, 0x69, 0x6e, 0x2e, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x4c, 0x6f, 0x67, 0x69, 0x6e, 0x49, 0x6e,
-	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x19, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x2e,
-	0x41, 0x64, 0x6d, 0x69, 0x6e, 0x4c, 0x6f, 0x67, 0x69, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
-	0x73, 0x65, 0x22, 0x00, 0x42, 0x10, 0x5a, 0x0e, 0x2e, 0x2f, 0x70, 0x6b, 0x67, 0x2f, 0x61, 0x64,
-	0x6d, 0x69, 0x6e, 0x2f, 0x70, 0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x22, 0x2c, 0x0a, 0x14, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x56, 0x61, 0x6c, 0x69, 0x64, 0x61, 0x74,
+	0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x14, 0x0a, 0x05, 0x74, 0x6f, 0x6b, 0x65,
+	0x6e, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x22, 0x2f,
+	0x0a, 0x15, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x56, 0x61, 0x6c, 0x69, 0x64, 0x61, 0x74, 0x65, 0x52,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x16, 0x0a, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75,
+	0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x32,
+	0xef, 0x01, 0x0a, 0x10, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x41, 0x75, 0x74, 0x68, 0x53, 0x65, 0x72,
+	0x76, 0x69, 0x63, 0x65, 0x12, 0x46, 0x0a, 0x0b, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x53, 0x69, 0x67,
+	0x6e, 0x55, 0x70, 0x12, 0x19, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x2e, 0x41, 0x64, 0x6d, 0x69,
+	0x6e, 0x53, 0x69, 0x6e, 0x67, 0x55, 0x70, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1a,
+	0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x2e, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x53, 0x69, 0x67, 0x6e,
+	0x55, 0x70, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x45, 0x0a, 0x0a,
+	0x41, 0x64, 0x6d, 0x69, 0x6e, 0x4c, 0x6f, 0x67, 0x69, 0x6e, 0x12, 0x1a, 0x2e, 0x61, 0x64, 0x6d,
+	0x69, 0x6e, 0x2e, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x4c, 0x6f, 0x67, 0x69, 0x6e, 0x49, 0x6e, 0x52,
+	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x19, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x2e, 0x41,
+	0x64, 0x6d, 0x69, 0x6e, 0x4c, 0x6f, 0x67, 0x69, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x22, 0x00, 0x12, 0x4c, 0x0a, 0x0d, 0x56, 0x61, 0x6c, 0x69, 0x64, 0x61, 0x74, 0x65, 0x41,
+	0x64, 0x6d, 0x69, 0x6e, 0x12, 0x1b, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x2e, 0x41, 0x64, 0x6d,
+	0x69, 0x6e, 0x56, 0x61, 0x6c, 0x69, 0x64, 0x61, 0x74, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
+	0x74, 0x1a, 0x1c, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x2e, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x56,
+	0x61, 0x6c, 0x69, 0x64, 0x61, 0x74, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22,
+	0x00, 0x42, 0x10, 0x5a, 0x0e, 0x2e, 0x2f, 0x70, 0x6b, 0x67, 0x2f, 0x61, 0x64, 0x6d, 0x69, 0x6e,
+	0x2f, 0x70, 0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -323,20 +428,24 @@ func file_pkg_admin_pb_admin_proto_rawDescGZIP() []byte {
 	return file_pkg_admin_pb_admin_proto_rawDescData
 }
 
-var file_pkg_admin_pb_admin_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_pkg_admin_pb_admin_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_pkg_admin_pb_admin_proto_goTypes = []interface{}{
-	(*AdminSingUpRequest)(nil),  // 0: admin.AdminSingUpRequest
-	(*AdminSignUpResponse)(nil), // 1: admin.AdminSignUpResponse
-	(*AdminLoginInRequest)(nil), // 2: admin.AdminLoginInRequest
-	(*AdminLoginResponse)(nil),  // 3: admin.AdminLoginResponse
+	(*AdminSingUpRequest)(nil),    // 0: admin.AdminSingUpRequest
+	(*AdminSignUpResponse)(nil),   // 1: admin.AdminSignUpResponse
+	(*AdminLoginInRequest)(nil),   // 2: admin.AdminLoginInRequest
+	(*AdminLoginResponse)(nil),    // 3: admin.AdminLoginResponse
+	(*AdminValidateRequest)(nil),  // 4: admin.AdminValidateRequest
+	(*AdminValidateResponse)(nil), // 5: admin.AdminValidateResponse
 }
 var file_pkg_admin_pb_admin_proto_depIdxs = []int32{
 	0, // 0: admin.AdminAuthService.AdminSignUp:input_type -> admin.AdminSingUpRequest
 	2, // 1: admin.AdminAuthService.AdminLogin:input_type -> admin.AdminLoginInRequest
-	1, // 2: admin.AdminAuthService.AdminSignUp:output_type -> admin.AdminSignUpResponse
-	3, // 3: admin.AdminAuthService.AdminLogin:output_type -> admin.AdminLoginResponse
-	2, // [2:4] is the sub-list for method output_type
-	0, // [0:2] is the sub-list for method input_type
+	4, // 2: admin.AdminAuthService.ValidateAdmin:input_type -> admin.AdminValidateRequest
+	1, // 3: admin.AdminAuthService.AdminSignUp:output_type -> admin.AdminSignUpResponse
+	3, // 4: admin.AdminAuthService.AdminLogin:output_type -> admin.AdminLoginResponse
+	5, // 5: admin.AdminAuthService.ValidateAdmin:output_type -> admin.AdminValidateResponse
+	3, // [3:6] is the sub-list for method output_type
+	0, // [0:3] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
@@ -396,6 +505,30 @@ func file_pkg_admin_pb_admin_proto_init() {
 				return nil
 			}
 		}
+		file_pkg_admin_pb_admin_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*AdminValidateRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_pkg_admin_pb_admin_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*AdminValidateResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -403,7 +536,7 @@ func file_pkg_admin_pb_admin_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_pkg_admin_pb_admin_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   4,
+			NumMessages:   6,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
@@ -431,6 +564,7 @@ const _ = grpc.SupportPackageIsVersion6
 type AdminAuthServiceClient interface {
 	AdminSignUp(ctx context.Context, in *AdminSingUpRequest, opts ...grpc.CallOption) (*AdminSignUpResponse, error)
 	AdminLogin(ctx context.Context, in *AdminLoginInRequest, opts ...grpc.CallOption) (*AdminLoginResponse, error)
+	ValidateAdmin(ctx context.Context, in *AdminValidateRequest, opts ...grpc.CallOption) (*AdminValidateResponse, error)
 }
 
 type adminAuthServiceClient struct {
@@ -459,10 +593,20 @@ func (c *adminAuthServiceClient) AdminLogin(ctx context.Context, in *AdminLoginI
 	return out, nil
 }
 
+func (c *adminAuthServiceClient) ValidateAdmin(ctx context.Context, in *AdminValidateRequest, opts ...grpc.CallOption) (*AdminValidateResponse, error) {
+	out := new(AdminValidateResponse)
+	err := c.cc.Invoke(ctx, "/admin.AdminAuthService/ValidateAdmin", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AdminAuthServiceServer is the server API for AdminAuthService service.
 type AdminAuthServiceServer interface {
 	AdminSignUp(context.Context, *AdminSingUpRequest) (*AdminSignUpResponse, error)
 	AdminLogin(context.Context, *AdminLoginInRequest) (*AdminLoginResponse, error)
+	ValidateAdmin(context.Context, *AdminValidateRequest) (*AdminValidateResponse, error)
 }
 
 // UnimplementedAdminAuthServiceServer can be embedded to have forward compatible implementations.
@@ -474,6 +618,9 @@ func (*UnimplementedAdminAuthServiceServer) AdminSignUp(context.Context, *AdminS
 }
 func (*UnimplementedAdminAuthServiceServer) AdminLogin(context.Context, *AdminLoginInRequest) (*AdminLoginResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AdminLogin not implemented")
+}
+func (*UnimplementedAdminAuthServiceServer) ValidateAdmin(context.Context, *AdminValidateRequest) (*AdminValidateResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ValidateAdmin not implemented")
 }
 
 func RegisterAdminAuthServiceServer(s *grpc.Server, srv AdminAuthServiceServer) {
@@ -516,6 +663,24 @@ func _AdminAuthService_AdminLogin_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AdminAuthService_ValidateAdmin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AdminValidateRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminAuthServiceServer).ValidateAdmin(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/admin.AdminAuthService/ValidateAdmin",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminAuthServiceServer).ValidateAdmin(ctx, req.(*AdminValidateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _AdminAuthService_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "admin.AdminAuthService",
 	HandlerType: (*AdminAuthServiceServer)(nil),
@@ -527,6 +692,10 @@ var _AdminAuthService_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "AdminLogin",
 			Handler:    _AdminAuthService_AdminLogin_Handler,
+		},
+		{
+			MethodName: "ValidateAdmin",
+			Handler:    _AdminAuthService_ValidateAdmin_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

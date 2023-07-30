@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"net/http"
 
 	"github.com/abhinandkakkadi/moviesgo-admin-service/pkg/admin/pb"
 	interfaces "github.com/abhinandkakkadi/moviesgo-admin-service/pkg/usecase/interface"
@@ -62,6 +63,21 @@ func (a *AdminServiceServer) AdminLogin(ctx context.Context,adminLoginDetails *p
 		Token: token,
 	},nil
 	
+}
+
+func (a *AdminServiceServer) ValidateAdmin(ctx context.Context, token *pb.AdminValidateRequest) (*pb.AdminValidateResponse, error) {
+
+	signedToken := token.Token
+	err := a.adminUseCase.ValidateAdmin(signedToken)
+	if err != nil {
+		return &pb.AdminValidateResponse{
+			Status: http.StatusUnauthorized,
+		},err
+	}
+
+	return &pb.AdminValidateResponse{
+		Status: http.StatusOK,
+	},nil
 }
 
 

@@ -2,23 +2,27 @@ package routes
 
 import (
 	"github.com/abhinandkakkadi/moviesgo-api-gateway/pkg/api/handler"
+	interfaces "github.com/abhinandkakkadi/moviesgo-api-gateway/pkg/client/interface"
 	"github.com/gin-gonic/gin"
 )
 
-func UserRoutes(router *gin.RouterGroup, userHandler *handler.UserHandler) {
+func UserRoutes(router *gin.RouterGroup, userHandler *handler.UserHandler,userClient interfaces.UserClient) {
 
-	router.GET("/sample", userHandler.SampleRequest)
+
 	// // USER SIDE
 	router.POST("/signup", userHandler.UserSignUp)
 	router.POST("/login", userHandler.LoginHandler)
 
+	router.Use(userClient.UserAuthRequired)
+	router.GET("/sample", userHandler.SampleRequest)
 	// product := router.Group("/products")
-	// {
-	// 	product.GET("", productHandler.ShowAllProducts)
-	// 	product.GET("/page/:page", productHandler.ShowAllProducts)
-	// 	product.GET("/:id", productHandler.ShowIndividualProducts)
+	
+	{
+		// product.GET("", productHandler.ShowAllProducts)
+		// product.GET("/page/:page", productHandler.ShowAllProducts)
+		// product.GET("/:id", productHandler.ShowIndividualProducts)
 
-	// }
+	}
 
 	// router.Use(middleware.AuthMiddleware())
 

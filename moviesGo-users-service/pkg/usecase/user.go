@@ -79,6 +79,17 @@ func (u *userUseCase) UserLogin(userDetails models.UserLogin) (string,error) {
 
 }
 
+func (u *userUseCase) ValidateUser(signedToken string) (int,error) {
+
+	userID,err := helper.ValidateUser(signedToken)
+	if err != nil {
+		return 0,err
+	}
+	
+	return userID,nil
+
+}
+
 	
 	
 

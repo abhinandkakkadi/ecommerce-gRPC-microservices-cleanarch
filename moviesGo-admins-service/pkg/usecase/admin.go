@@ -21,6 +21,18 @@ func NewAdminUseCase(repo interfaces.AdminRepository) services.AdminUseCase {
 	}
 }
 
+
+func (a *adminUseCase) ValidateAdmin(token string) error {
+
+	err := helper.ValidateAdminToken(token)
+	if err != nil {
+		return err
+	}
+
+	return nil
+	
+}
+
 func (a *adminUseCase) AdminSignUp(adminDetails models.AdminSignUp) (int, error) {
 	// validator package to check the constraints specified in the struct which is used to retrieve these details
 	if err := validator.New().Struct(adminDetails); err != nil {

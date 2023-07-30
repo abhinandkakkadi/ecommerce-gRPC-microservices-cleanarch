@@ -5,6 +5,7 @@ import (
 
 	handler "github.com/abhinandkakkadi/moviesgo-api-gateway/pkg/api/handler"
 	"github.com/abhinandkakkadi/moviesgo-api-gateway/pkg/api/routes"
+	interfaces "github.com/abhinandkakkadi/moviesgo-api-gateway/pkg/client/interface"
 	"github.com/gin-gonic/gin"
 )
 
@@ -12,13 +13,13 @@ type ServerHTTP struct {
 	engine *gin.Engine
 }
 
-func NewServerHTTP(userHandler *handler.UserHandler,adminHandler *handler.AdminHandler) *ServerHTTP {
+func NewServerHTTP(userHandler *handler.UserHandler,adminHandler *handler.AdminHandler,userClient interfaces.UserClient,adminClient interfaces.AdminClient,productHandler *handler.ProductHandler) *ServerHTTP {
 	router := gin.New()
 
 	router.Use(gin.Logger())
 
-	routes.UserRoutes(router.Group("/"), userHandler)
-	routes.AdminRoutes(router.Group("/admin"), adminHandler)
+	routes.UserRoutes(router.Group("/"), userHandler,userClient)
+	routes.AdminRoutes(router.Group("/admin"), adminHandler,adminClient,productHandler)
 
 	return &ServerHTTP{engine: router}
 }

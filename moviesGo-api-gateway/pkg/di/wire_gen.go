@@ -22,12 +22,14 @@ func InitializeAPI(cfg config.Config) (*http.ServerHTTP, error) {
 
 	adminClient := client.NewAdminClient(cfg)
 	adminHandler := handler.NewAdminHandler(adminClient)
-	// productHandler := handler.NewProductHandler(productUseCase)
+
+	productClient := client.NewProductClient(cfg)
+	productHandler := handler.NewProductHandler(productClient)
 
 	// cartHandler := handler.NewCartHandler(cartuseCase)
 	// orderHandler := handler.NewOrderHandler(orderUseCase)
 
-	serverHTTP := http.NewServerHTTP(userHandler,adminHandler)
+	serverHTTP := http.NewServerHTTP(userHandler,adminHandler,userClient,adminClient,productHandler)
 
 	return serverHTTP, nil
 }

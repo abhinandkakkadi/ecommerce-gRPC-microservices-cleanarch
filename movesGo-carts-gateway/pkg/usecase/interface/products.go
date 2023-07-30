@@ -5,8 +5,8 @@ import (
 )
 
 type ProductUseCase interface {
-	ShowAllProducts(page int, count int) (models.ProductsBrief, error)
-	AddProduct() 
+	ShowAllProducts(page int, count int) ([]models.ProductsBrief, error)
+	AddProduct(productReceiver models.ProductsReceiver) (int,error)
 	GetGenreDetails() 
 	GetStudioDetails()
 }

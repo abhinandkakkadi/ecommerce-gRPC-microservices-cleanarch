@@ -6,8 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func UserRoutes(router *gin.RouterGroup, userHandler *handler.UserHandler,userClient interfaces.UserClient) {
-
+func UserRoutes(router *gin.RouterGroup, userHandler *handler.UserHandler, userClient interfaces.UserClient, productHandler *handler.ProductHandler, cartHandler *handler.CartHandler) {
 
 	// // USER SIDE
 	router.POST("/signup", userHandler.UserSignUp)
@@ -15,26 +14,35 @@ func UserRoutes(router *gin.RouterGroup, userHandler *handler.UserHandler,userCl
 
 	router.Use(userClient.UserAuthRequired)
 	router.GET("/sample", userHandler.SampleRequest)
-	// product := router.Group("/products")
-	
+	product := router.Group("/products")
+
 	{
-		// product.GET("", productHandler.ShowAllProducts)
-		// product.GET("/page/:page", productHandler.ShowAllProducts)
+		product.GET("", productHandler.ShowAllProductToAdmin)
+		product.GET("/page/:page", productHandler.ShowAllProductToAdmin)
 		// product.GET("/:id", productHandler.ShowIndividualProducts)
+
+	}
+
+	cart := router.Group("/cart")
+	{
+		cart.POST("/addtocart/:id", cartHandler.AddToCart)
+		// cart.DELETE("/removefromcart/:id", cartHandler.RemoveFromCart)
+		cart.GET("", cartHandler.DisplayCart)
+		// cart.DELETE("", cartHandler.EmptyCart)
 
 	}
 
 	// router.Use(middleware.AuthMiddleware())
 
 	// {
-	// 	cart := router.Group("/cart")
-	// 	{
-	// 		cart.POST("/addtocart/:id", cartHandler.AddToCart)
-	// 		cart.DELETE("/removefromcart/:id", cartHandler.RemoveFromCart)
-	// 		cart.GET("", cartHandler.DisplayCart)
-	// 		cart.DELETE("", cartHandler.EmptyCart)
+	// cart := router.Group("/cart")
+	// {
+	// 	cart.POST("/addtocart/:id", cartHandler.AddToCart)
+	// 	cart.DELETE("/removefromcart/:id", cartHandler.RemoveFromCart)
+	// 	cart.GET("", cartHandler.DisplayCart)
+	// 	cart.DELETE("", cartHandler.EmptyCart)
 
-	// 	}
+	// }
 
 	// 	router.GET("/checkout", userHandler.CheckOut)
 	// 	router.POST("/order", orderHandler.OrderItemsFromCart)

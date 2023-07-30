@@ -6,11 +6,12 @@ import (
 )
 
 type Config struct {
-	Port          string `mapstructure:"PORT"`
-	AuthSvcUrl    string `mapstructure:"AUTH_SVC_URL"`
-	ProductSvcUrl string `mapstructure:"PRODUCT_SVC_URL"`
-	OrderSvcUrl   string `mapstructure:"ORDER_SVC_URL"`
-	AdminAuthSvcUrl   string `mapstructure:"ADMIN_AUTH_SVC_URL"`
+	Port            string `mapstructure:"PORT"`
+	AuthSvcUrl      string `mapstructure:"AUTH_SVC_URL"`
+	ProductSvcUrl   string `mapstructure:"PRODUCT_SVC_URL"`
+	OrderSvcUrl     string `mapstructure:"ORDER_SVC_URL"`
+	AdminAuthSvcUrl string `mapstructure:"ADMIN_AUTH_SVC_URL"`
+	CartSvcUrl      string `mapstructure:"CART_SCV_URL"`
 }
 
 func LoadConfig() (Config, error) {

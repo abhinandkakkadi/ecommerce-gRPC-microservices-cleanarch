@@ -15,7 +15,6 @@ import (
 	"google.golang.org/grpc"
 )
 
-
 type adminClient struct {
 	adminClient pb.AdminAuthServiceClient
 }
@@ -39,53 +38,46 @@ func (a *adminClient) AdminAuthRequired(c *gin.Context) {
 
 	token := c.GetHeader("authorization")
 
-	res,err := a.adminClient.ValidateAdmin(context.Background(),&pb.AdminValidateRequest{
+	_, err := a.adminClient.ValidateAdmin(context.Background(), &pb.AdminValidateRequest{
 		Token: token,
 	})
 
 	if err != nil {
-		c.AbortWithStatus(int(res.Status))
+		c.AbortWithStatus(http.StatusUnauthorized)
 		errRes := response.ClientResponse(http.StatusUnauthorized, "client unauthorized to access this route", nil, err.Error())
 		c.JSON(http.StatusBadRequest, errRes)
 		return
 	}
-	
-
-	c.Next()
-
 }
 
+func (a *adminClient) LoginHandler(adminDetails models.AdminLogin) (string, error) {
 
-
-func (a *adminClient) LoginHandler(adminDetails models.AdminLogin) (string,error) {
-
-	res, _ := a.adminClient.AdminLogin(context.Background(),&pb.AdminLoginInRequest{
-		Email: adminDetails.Email,
+	res, _ := a.adminClient.AdminLogin(context.Background(), &pb.AdminLoginInRequest{
+		Email:    adminDetails.Email,
 		Password: adminDetails.Password,
 	})
 
 	if res.Error != "" {
-		return "",errors.New(res.Error)
+		return "", errors.New(res.Error)
 	}
 
-	return res.Token,nil
+	return res.Token, nil
 
 }
 
+func (a *adminClient) CreateAdmin(admin models.AdminSignUp) (int, error) {
 
-func (a *adminClient) CreateAdmin(admin models.AdminSignUp) (int,error) {
-
-	res, err := a.adminClient.AdminSignUp(context.Background(),&pb.AdminSingUpRequest{
-		Name: admin.Name,
-		Email: admin.Email,
-		Password: admin.Password,
+	res, err := a.adminClient.AdminSignUp(context.Background(), &pb.AdminSingUpRequest{
+		Name:            admin.Name,
+		Email:           admin.Email,
+		Password:        admin.Password,
 		Confirmpassword: admin.ConfirmPassword,
 	})
 
 	if err != nil {
-		return 400,err
+		return 400, err
 	}
 
-	return int(res.Status),nil
+	return int(res.Status), nil
 
 }

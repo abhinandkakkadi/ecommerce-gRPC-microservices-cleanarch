@@ -5,6 +5,7 @@ import (
 	// 	"strconv"
 
 	// "github.com/gin-gonic/gin"
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -77,14 +78,17 @@ func NewProductHandler(productClientWrapper interfaces.ProductClient) *ProductHa
 // @Success 200 {object} response.Response{}
 // @Failure 500 {object} response.Response{}
 // @Router /admin/products [get]
-func (pr *ProductHandler) SeeAllProductToAdmin(c *gin.Context) {
+func (pr *ProductHandler) ShowAllProductToAdmin(c *gin.Context) {
 
 	pageStr := c.Param("page")
 	page, _ := strconv.Atoi(pageStr)
 
 	count, _ := strconv.Atoi(c.Query("count"))
 
-	products, err := pr.productClient.ShowAllProducts(page,count)
+	// page := 1
+	// count := 10
+
+	products, err := pr.productClient.ShowAllProducts(page, count)
 	if err != nil {
 		errorRes := response.ClientResponse(http.StatusInternalServerError, "could not retrieve records", nil, err.Error())
 		c.JSON(http.StatusInternalServerError, errorRes)
@@ -141,6 +145,8 @@ func (pr *ProductHandler) AddProduct(c *gin.Context) {
 		return
 	}
 
+	fmt.Println("product at handler: ", product)
+
 	productResponse, err := pr.productClient.AddProduct(product)
 
 	if err != nil {
@@ -149,7 +155,7 @@ func (pr *ProductHandler) AddProduct(c *gin.Context) {
 		return
 	}
 
-	successRes := response.ClientResponse(http.StatusOK, "Successfully added products", productResponse, nil)
+	successRes := response.ClientResponse(http.StatusOK, "Successfully added product", productResponse, nil)
 	c.JSON(http.StatusOK, successRes)
 
 }

@@ -8,6 +8,6 @@ import (
 type UserClient interface {
 	SampleRequest(request string) (string, error)
 	SignUpRequest(userDetails models.UserDetails) (int, error)
-	LoginHandler(userAuthDetails models.UserLogin) (string,error)
+	LoginHandler(userAuthDetails models.UserLogin) (string, error)
 	UserAuthRequired(c *gin.Context)
 }

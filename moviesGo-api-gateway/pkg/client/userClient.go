@@ -32,23 +32,22 @@ func NewUserClient(cfg config.Config) services.UserClient {
 
 }
 
-func (u *userClient) UserAuthRequired(c *gin.Context)  {
+func (u *userClient) UserAuthRequired(c *gin.Context) {
 
 	token := c.GetHeader("authorization")
 
-	userID, err := u.client.ValidateUser(context.Background(),&pb.ValidateRequest{
+	userID, err := u.client.ValidateUser(context.Background(), &pb.ValidateRequest{
 		Token: token,
 	})
 
-	fmt.Println("the error is: ",err)
+	fmt.Println("the error is: ", err)
 
 	if err != nil {
 		c.AbortWithStatus(http.StatusUnauthorized)
 		return
 	}
 
-	c.Set("userID",userID.UserID)
-
+	c.Set("userID", userID.UserID)
 
 }
 
@@ -81,16 +80,16 @@ func (u *userClient) SignUpRequest(userDetails models.UserDetails) (int, error) 
 
 }
 
-func (u *userClient) LoginHandler(userAuthDetails models.UserLogin) (string,error) {
+func (u *userClient) LoginHandler(userAuthDetails models.UserLogin) (string, error) {
 
-	res, err := u.client.UserLogin(context.Background(),&pb.LoginInRequest{
-		Email: userAuthDetails.Email,
+	res, err := u.client.UserLogin(context.Background(), &pb.LoginInRequest{
+		Email:    userAuthDetails.Email,
 		Password: userAuthDetails.Password,
 	})
 
 	if err != nil {
-		return "",err
+		return "", err
 	}
 
-	return res.Token,nil
+	return res.Token, nil
 }

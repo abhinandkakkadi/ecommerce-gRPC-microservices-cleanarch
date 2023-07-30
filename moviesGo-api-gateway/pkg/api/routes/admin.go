@@ -9,15 +9,15 @@ import (
 func AdminRoutes(router *gin.RouterGroup, adminHandler *handler.AdminHandler, adminClient interfaces.AdminClient, productHandler *handler.ProductHandler) {
 
 	router.POST("/adminlogin", adminHandler.LoginHandler)
-	router.POST("/create-admin",adminHandler.CreateAdmin)
+	router.POST("/create-admin", adminHandler.CreateAdmin)
 
 	router.Use(adminClient.AdminAuthRequired)
 	{
 
 		product := router.Group("/products")
 		{
-			// product.GET("", productHandler.ShowAllProductsToAdmin)
-			// product.GET("/:page", productHandler.ShowAllProductToAdmin)
+			product.GET("/", productHandler.ShowAllProductToAdmin)
+			product.GET("/:page", productHandler.ShowAllProductToAdmin)
 			product.POST("/add-product", productHandler.AddProduct)
 
 		}

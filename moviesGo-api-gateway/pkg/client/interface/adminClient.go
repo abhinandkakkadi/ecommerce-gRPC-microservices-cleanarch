@@ -5,11 +5,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-
 type AdminClient interface {
-
-	LoginHandler(adminDetails models.AdminLogin) (string,error)
-	CreateAdmin(admin models.AdminSignUp) (int,error)
+	LoginHandler(adminDetails models.AdminLogin) (string, error)
+	CreateAdmin(admin models.AdminSignUp) (int, error)
 	AdminAuthRequired(c *gin.Context)
-	
 }

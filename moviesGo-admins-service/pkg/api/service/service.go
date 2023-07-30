@@ -22,47 +22,47 @@ func NewAdminServiceServer(useCase interfaces.AdminUseCase) pb.AdminAuthServiceS
 
 }
 
-func (a *AdminServiceServer) AdminSignUp(ctx context.Context,userSignUpDetails *pb.AdminSingUpRequest) (*pb.AdminSignUpResponse, error) {
+func (a *AdminServiceServer) AdminSignUp(ctx context.Context, userSignUpDetails *pb.AdminSingUpRequest) (*pb.AdminSignUpResponse, error) {
 
 	adminCreateDetails := models.AdminSignUp{
-		Name: userSignUpDetails.Name,
-		Email: userSignUpDetails.Email,
+		Name:     userSignUpDetails.Name,
+		Email:    userSignUpDetails.Email,
 		Password: userSignUpDetails.Password,
 	}
 
-	status,err := a.adminUseCase.AdminSignUp(adminCreateDetails)
+	status, err := a.adminUseCase.AdminSignUp(adminCreateDetails)
 	if err != nil {
 		return &pb.AdminSignUpResponse{
 			Status: int64(status),
-			Error: err.Error(),
-		},nil
+			Error:  err.Error(),
+		}, nil
 	}
 
 	return &pb.AdminSignUpResponse{
 		Status: int64(status),
-		Error: "",
-	},nil
+		Error:  "",
+	}, nil
 
 }
 
-func (a *AdminServiceServer) AdminLogin(ctx context.Context,adminLoginDetails *pb.AdminLoginInRequest) (*pb.AdminLoginResponse, error) {
+func (a *AdminServiceServer) AdminLogin(ctx context.Context, adminLoginDetails *pb.AdminLoginInRequest) (*pb.AdminLoginResponse, error) {
 
 	adminLogin := models.AdminLogin{
-		Email: adminLoginDetails.Email,
+		Email:    adminLoginDetails.Email,
 		Password: adminLoginDetails.Password,
 	}
 
-	token,err := a.adminUseCase.AdminLogin(adminLogin)
+	token, err := a.adminUseCase.AdminLogin(adminLogin)
 	if err != nil {
 		return &pb.AdminLoginResponse{
-			Error: err.Error(),	
-		},nil
+			Error: err.Error(),
+		}, nil
 	}
 
 	return &pb.AdminLoginResponse{
 		Token: token,
-	},nil
-	
+	}, nil
+
 }
 
 func (a *AdminServiceServer) ValidateAdmin(ctx context.Context, token *pb.AdminValidateRequest) (*pb.AdminValidateResponse, error) {
@@ -72,12 +72,10 @@ func (a *AdminServiceServer) ValidateAdmin(ctx context.Context, token *pb.AdminV
 	if err != nil {
 		return &pb.AdminValidateResponse{
 			Status: http.StatusUnauthorized,
-		},err
+		}, err
 	}
 
 	return &pb.AdminValidateResponse{
 		Status: http.StatusOK,
-	},nil
+	}, nil
 }
-
-

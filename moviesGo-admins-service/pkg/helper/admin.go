@@ -8,7 +8,6 @@ import (
 	"github.com/golang-jwt/jwt"
 )
 
-
 type authCustomClaimsAdmin struct {
 	Name  string `json:"name"`
 	Email string `json:"email"`
@@ -38,7 +37,7 @@ func GenerateTokenAdmin(admin domain.Admin) (string, error) {
 
 }
 
-func ValidateAdminToken(token string) (error) {
+func ValidateAdminToken(token string) error {
 
 	_, err := jwt.Parse(token, func(t *jwt.Token) (interface{}, error) {
 		if _, ok := t.Method.(*jwt.SigningMethodHMAC); !ok {
@@ -49,5 +48,5 @@ func ValidateAdminToken(token string) (error) {
 	})
 
 	return err
-	
+
 }

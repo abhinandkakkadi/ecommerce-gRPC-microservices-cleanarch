@@ -30,7 +30,7 @@ func InitializeAPI(cfg config.Config) (*http.ServerHTTP, error) {
 	cartHandler := handler.NewCartHandler(cartClient)
 	// orderHandler := handler.NewOrderHandler(orderUseCase)
 
-	serverHTTP := http.NewServerHTTP(userHandler, adminHandler, userClient, adminClient, productHandler,cartHandler)
+	serverHTTP := http.NewServerHTTP(userHandler, adminHandler, userClient, adminClient, productHandler, cartHandler)
 
 	return serverHTTP, nil
 }

@@ -52,8 +52,7 @@ func GenerateAccessToken(user models.UserDetailsResponse) (string, error) {
 
 }
 
-
-func ValidateUser(tokenString string) (int,error) {
+func ValidateUser(tokenString string) (int, error) {
 
 	token, err := jwt.ParseWithClaims(tokenString, &authCustomClaimsUsers{}, func(token *jwt.Token) (interface{}, error) {
 		// Check the signing method
@@ -65,7 +64,7 @@ func ValidateUser(tokenString string) (int,error) {
 	})
 
 	if err != nil {
-		return 0,errors.New("invalid signing method")
+		return 0, errors.New("invalid signing method")
 	}
 
 	claims, ok := token.Claims.(*authCustomClaimsUsers)
@@ -73,7 +72,6 @@ func ValidateUser(tokenString string) (int,error) {
 		return 0, errors.New("invalid token claims")
 	}
 
-	return claims.Id,nil
-	
-}
+	return claims.Id, nil
 
+}

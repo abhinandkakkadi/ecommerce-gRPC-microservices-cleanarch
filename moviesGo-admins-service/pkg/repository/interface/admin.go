@@ -8,5 +8,5 @@ import (
 type AdminRepository interface {
 	CreateAdmin(admin models.AdminSignUp) (int, error)
 	CheckAdminAvailability(admin models.AdminSignUp) bool
-	LoginHandler(adminDetails models.AdminLogin) (domain.Admin,error)
+	LoginHandler(adminDetails models.AdminLogin) (domain.Admin, error)
 }

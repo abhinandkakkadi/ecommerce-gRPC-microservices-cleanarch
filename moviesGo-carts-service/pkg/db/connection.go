@@ -3,8 +3,8 @@ package db
 import (
 	"fmt"
 
-	"github.com/abhinandkakkadi/moviesgo-products-service/pkg/config"
-	"github.com/abhinandkakkadi/moviesgo-products-service/pkg/domain"
+	"github.com/abhinandkakkadi/moviesgo-carts-service/pkg/config"
+	"github.com/abhinandkakkadi/moviesgo-carts-service/pkg/domain"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -15,9 +15,7 @@ func ConnectDatabase(cfg config.Config) (*gorm.DB, error) {
 		SkipDefaultTransaction: true,
 	})
 
-	db.AutoMigrate(&domain.Products{})
-	db.AutoMigrate(&domain.Genre{})
-	db.AutoMigrate(&domain.MovieStudio{})
+	db.AutoMigrate(&domain.Cart{})
 	return db, dbErr
 
 }

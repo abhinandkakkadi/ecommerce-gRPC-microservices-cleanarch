@@ -48,7 +48,7 @@ func (cr *CartHandler) AddToCart(c *gin.Context) {
 	}
 
 	userID, _ := c.Get("user_id")
-	cartResponse, err := cr.cartClient.AddToCart(product_id,userID.(int))
+	cartResponse, err := cr.cartClient.AddToCart(product_id, userID.(int))
 
 	if err != nil {
 		errorRes := response.ClientResponse(http.StatusInternalServerError, "could not add product to the cart", nil, err.Error())

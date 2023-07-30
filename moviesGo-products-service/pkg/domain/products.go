@@ -1,7 +1,5 @@
 package domain
 
-
-
 type Products struct {
 	ID                  uint        `json:"id" gorm:"unique;not null"`
 	MovieName           string      `json:"movie_name"`
@@ -25,8 +23,6 @@ type Genre struct {
 	ID        uint   `json:"id" gorm:"unique; not null"`
 	GenreName string `json:"genre_name"`
 }
-
-
 
 type MovieStudio struct {
 	ID     uint   `json:"id" gorm:"unique; not null"`

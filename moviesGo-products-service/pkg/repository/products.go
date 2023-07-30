@@ -16,7 +16,6 @@ func NewProductRepository(DB *gorm.DB) interfaces.ProductsRepository {
 	}
 }
 
-
 func (p *ProductDatabase) ShowAllProducts(page int, count int) ([]models.ProductsBrief, error) {
 
 	if page == 0 {
@@ -39,7 +38,7 @@ func (p *ProductDatabase) ShowAllProducts(page int, count int) ([]models.Product
 
 }
 
-func (p *ProductDatabase) AddProduct(productReceiver models.ProductsReceiver) (int,error)  {
+func (p *ProductDatabase) AddProduct(productReceiver models.ProductsReceiver) (int, error) {
 
 	var id int
 
@@ -49,16 +48,13 @@ func (p *ProductDatabase) AddProduct(productReceiver models.ProductsReceiver) (i
 		return 0, err
 	}
 
-	return id,nil
+	return id, nil
 }
 
 func (p *ProductDatabase) GetGenreDetails() {
 
-} 
+}
 
 func (p *ProductDatabase) GetStudioDetails() {
 
 }
-
-
-

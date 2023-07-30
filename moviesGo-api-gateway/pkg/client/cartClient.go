@@ -30,27 +30,22 @@ func NewCartClient(cfg config.Config) interfaces.CartClient {
 
 }
 
+func (c *cartClient) AddToCart(productID int, userID int) (int, error) {
 
-func (c *cartClient) AddToCart(productID int, userID int) (int,error) {
-
-	res, err := c.cartClient.AddToCart(context.Background(),&pb.AddToCartRequest{
-		Productid:int64(productID),
-		Userid: int64(userID),
+	res, err := c.cartClient.AddToCart(context.Background(), &pb.AddToCartRequest{
+		Productid: int64(productID),
+		Userid:    int64(userID),
 	})
 
 	if err != nil {
-		return 400,err
+		return 400, err
 	}
 
-	return int(res.Status),nil
+	return int(res.Status), nil
 
 }
 
-func (c *cartClient) DisplayCart(userID int) (models.CartResponse,error) {
+func (c *cartClient) DisplayCart(userID int) (models.CartResponse, error) {
 
-	return models.CartResponse{},nil
+	return models.CartResponse{}, nil
 }
-
-
-
-	

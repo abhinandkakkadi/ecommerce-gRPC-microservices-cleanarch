@@ -33,7 +33,7 @@ func (c *UserDatabase) CheckUserAvailability(email string) bool {
 }
 
 // // retrieve the user details form the database
-func (c *UserDatabase) FindUserByEmail(user models.UserLogin) (models.UserDetailsResponse,error) {
+func (c *UserDatabase) FindUserByEmail(user models.UserLogin) (models.UserDetailsResponse, error) {
 
 	var userDetails models.UserDetailsResponse
 

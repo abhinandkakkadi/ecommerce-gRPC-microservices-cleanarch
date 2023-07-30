@@ -4,10 +4,10 @@ import "gorm.io/gorm"
 
 type Users struct {
 	gorm.Model
-	Name     string 
-	Email    string 
-	Password string 
-	Phone    string 
+	Name     string
+	Email    string
+	Password string
+	Phone    string
 }
 
 type Address struct {

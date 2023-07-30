@@ -39,8 +39,8 @@ func (a *AdminDatabase) CheckAdminAvailability(admin models.AdminSignUp) bool {
 
 }
 
-func (a *AdminDatabase) LoginHandler(adminDetails models.AdminLogin) (domain.Admin,error) {
-	
+func (a *AdminDatabase) LoginHandler(adminDetails models.AdminLogin) (domain.Admin, error) {
+
 	var adminCompareDetails domain.Admin
 	if err := a.DB.Raw("select * from admins where email = ? ", adminDetails.Email).Scan(&adminCompareDetails).Error; err != nil {
 		return domain.Admin{}, err

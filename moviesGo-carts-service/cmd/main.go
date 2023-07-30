@@ -3,8 +3,8 @@ package main
 import (
 	"log"
 
-	config "github.com/abhinandkakkadi/moviesgo-products-service/pkg/config"
-	"github.com/abhinandkakkadi/moviesgo-products-service/pkg/di"
+	config "github.com/abhinandkakkadi/moviesgo-carts-service/pkg/config"
+	"github.com/abhinandkakkadi/moviesgo-carts-service/pkg/di"
 )
 
 func main() {

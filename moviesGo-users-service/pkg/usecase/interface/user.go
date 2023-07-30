@@ -6,6 +6,6 @@ import (
 
 type UserUseCase interface {
 	UserSignUp(user models.UserDetails) (int, error)
-	UserLogin(userSignUpDetails models.UserLogin) (string,error)
-	ValidateUser(signedToken string) (int,error)
+	UserLogin(userSignUpDetails models.UserLogin) (string, error)
+	ValidateUser(signedToken string) (int, error)
 }

@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"net"
 
-	"github.com/abhinandkakkadi/moviesgo-products-service/pkg/config"
-	"github.com/abhinandkakkadi/moviesgo-products-service/pkg/product/pb"
+	"github.com/abhinandkakkadi/moviesgo-carts-service/pkg/cart/pb"
+	"github.com/abhinandkakkadi/moviesgo-carts-service/pkg/config"
 	"google.golang.org/grpc"
 )
 
@@ -14,7 +14,7 @@ type Server struct {
 	listener net.Listener
 }
 
-func NewGRPCServer(cfg config.Config, server pb.ProductServiceServer) (*Server, error) {
+func NewGRPCServer(cfg config.Config, server pb.CartServiceServer) (*Server, error) {
 
 	lis, err := net.Listen("tcp", cfg.Port)
 	if err != nil {
@@ -22,7 +22,7 @@ func NewGRPCServer(cfg config.Config, server pb.ProductServiceServer) (*Server, 
 	}
 
 	newServer := grpc.NewServer()
-	pb.RegisterProductServiceServer(newServer, server)
+	pb.RegisterCartServiceServer(newServer, server)
 
 	return &Server{
 		server:   newServer,

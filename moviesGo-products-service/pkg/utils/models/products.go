@@ -1,6 +1,5 @@
 package models
 
-
 type ProductsBrief struct {
 	ID            int     `json:"id"`
 	MovieName     string  `json:"movie_name"`

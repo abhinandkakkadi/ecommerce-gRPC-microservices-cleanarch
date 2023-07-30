@@ -4,7 +4,7 @@ import "github.com/abhinandkakkadi/moviesgo-user-service/pkg/utils/models"
 
 type UserRepository interface {
 	AddUserDetails(user models.UserDetails) (int, error)
-	FindUserByEmail(user models.UserLogin) (models.UserDetailsResponse,error)
+	FindUserByEmail(user models.UserLogin) (models.UserDetailsResponse, error)
 	CheckUserAvailability(email string) bool
 	// UserBlockStatus(email string) (bool, error)
 	// LoginHandler(user models.UserDetails) (models.UserDetailsResponse, error)

@@ -21,7 +21,6 @@ func NewAdminUseCase(repo interfaces.AdminRepository) services.AdminUseCase {
 	}
 }
 
-
 func (a *adminUseCase) ValidateAdmin(token string) error {
 
 	err := helper.ValidateAdminToken(token)
@@ -30,7 +29,7 @@ func (a *adminUseCase) ValidateAdmin(token string) error {
 	}
 
 	return nil
-	
+
 }
 
 func (a *adminUseCase) AdminSignUp(adminDetails models.AdminSignUp) (int, error) {
@@ -74,12 +73,11 @@ func (a *adminUseCase) AdminLogin(adminDetails models.AdminLogin) (string, error
 		return "", err
 	}
 
-	
 	token, err := helper.GenerateTokenAdmin(adminCompareDetails)
 
 	if err != nil {
 		return "", err
-	}	
+	}
 
-	return token,nil
+	return token, nil
 }

@@ -15,8 +15,6 @@ import (
 )
 
 func InitializeAPI(cfg config.Config) (*http.ServerHTTP, error) {
-	wire.Build(db.ConnectDatabase, repository.NewAdminRepository,usecase.NewAdminUseCase,service.NewAdminServiceServer,api.NewGRPCServer)
+	wire.Build(db.ConnectDatabase, repository.NewAdminRepository, usecase.NewAdminUseCase, service.NewAdminServiceServer, api.NewGRPCServer)
 	return &http.ServerHTTP{}, nil
 }
-
-

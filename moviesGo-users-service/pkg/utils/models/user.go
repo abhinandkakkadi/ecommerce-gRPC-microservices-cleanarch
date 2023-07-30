@@ -9,16 +9,16 @@ type UserDetails struct {
 }
 
 type UserLogin struct {
-	Email    string 
-	Password string 
+	Email    string
+	Password string
 }
 
 // user details shown after logging in
 type UserDetailsResponse struct {
-	Id    int    
-	Name  string 
-	Email string 
-	Phone string 
+	Id       int
+	Name     string
+	Email    string
+	Phone    string
 	Password string
 }
 

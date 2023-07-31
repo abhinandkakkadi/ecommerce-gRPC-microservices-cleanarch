@@ -48,3 +48,16 @@ func (p *productUseCase) GetGenreDetails() {
 func (p *productUseCase) GetStudioDetails() {
 
 }
+
+func (p *productUseCase) ProductExistInCarts(productID int) (bool, error) {
+	return p.productRepository.DoesProductExist(productID)
+}
+
+func (p *productUseCase) GetProductPriceFromID(productID int) (float64, error) {
+	return p.productRepository.GetProductPriceFromID(productID)
+}
+
+func (p *productUseCase) GetProductsNameFromID(productIDS []int) ([]models.ProductName, error) {
+
+	return p.productRepository.GetProductNameFromID(productIDS)
+}

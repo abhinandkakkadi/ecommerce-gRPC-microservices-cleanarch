@@ -109,8 +109,8 @@ func (cr *CartHandler) AddToCart(c *gin.Context) {
 // @Router /cart [get]
 func (cr *CartHandler) DisplayCart(c *gin.Context) {
 
-	userID, _ := c.Get("user_id")
-	cart, err := cr.cartClient.DisplayCart(userID.(int))
+	userID, _ := c.Get("userID")
+	cart, err := cr.cartClient.DisplayCart(int(userID.(int64)))
 
 	if err != nil {
 		errorRes := response.ClientResponse(http.StatusInternalServerError, "Could not display cart items", nil, err.Error())

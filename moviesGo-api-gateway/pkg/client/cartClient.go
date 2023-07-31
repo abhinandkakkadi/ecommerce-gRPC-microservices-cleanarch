@@ -48,5 +48,28 @@ func (c *cartClient) AddToCart(productID int, userID int) (int, error) {
 
 func (c *cartClient) DisplayCart(userID int) (models.CartResponse, error) {
 
-	return models.CartResponse{}, nil
+	res, err := c.cartClient.DisplayCart(context.Background(),&pb.DisplayCartRequest{
+		Userid: int64(userID),
+	})
+
+	if err != nil {
+		return models.CartResponse{},err
+	}
+
+	var cartRes models.CartResponse
+	cartRes.TotalPrice = float64(res.Totalprice)
+	
+	for _,carts := range res.Cartproducts {
+		cartRes.Cart = append(cartRes.Cart, models.Cart{
+			ProductID: uint(carts.Prdoductid),
+			MovieName: carts.Moviename,
+			Quantity: float64(carts.Quantity),
+			TotalPrice: float64(carts.Totalprice),
+		})
+	}
+
+	fmt.Println("DISPLAY CARTS: ",cartRes)
+
+	return cartRes,nil
+
 }

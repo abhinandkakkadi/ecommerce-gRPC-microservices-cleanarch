@@ -9,4 +9,7 @@ type ProductsRepository interface {
 	AddProduct(productReceiver models.ProductsReceiver) (int, error)
 	GetGenreDetails()
 	GetStudioDetails()
+	DoesProductExist(productID int) (bool, error)
+	GetProductPriceFromID(productID int) (float64, error)
+	GetProductNameFromID(productIDS []int) ([]models.ProductName, error)
 }

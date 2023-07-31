@@ -11,6 +11,34 @@ service ProductService {
   rpc GetStudioDetails(StudioRequest) returns (AllStudioResponse) {};
   rpc DoesProductExist(ProductExistRequest) returns (ProductExistResponse) {};
   rpc GetProductNameFromID(ProductNameFromIDRequest) returns (ProductNameFromIDResponse) {};
+  rpc GetProductPriceFromID(ProductPriceFromIDRequest) returns (ProductPriceFromIDResponse) {};
+  rpc GetCartProductsNameFromID(ProductIDSRequest) returns (ProductNamesResponse) {};
+
+}
+
+message ProductIDS {
+  int64 productid = 1;
+}
+
+message ProductIDSRequest {
+  repeated ProductIDS allproductids = 1;
+}
+
+message ProductNameWithID {
+  int64 productid = 1;
+  string productname = 2;
+}
+
+message ProductNamesResponse {
+  repeated ProductNameWithID productswithid = 1;
+}
+
+message ProductPriceFromIDRequest {
+  int64 productid = 1;
+}
+
+message ProductPriceFromIDResponse {
+  float price = 1;
 }
 
 message ProductExistRequest {

@@ -24,3 +24,8 @@ type ProductsReceiver struct {
 	Quantity            int     `json:"quantity binding:required"`
 	Price               float64 `json:"price binding:required"`
 }
+
+type ProductName struct {
+	ID        int
+	MovieName string
+}

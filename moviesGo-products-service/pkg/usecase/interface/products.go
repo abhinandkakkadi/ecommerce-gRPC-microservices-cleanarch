@@ -9,4 +9,7 @@ type ProductUseCase interface {
 	AddProduct(productReceiver models.ProductsReceiver) (int, error)
 	GetGenreDetails()
 	GetStudioDetails()
+	ProductExistInCarts(productID int) (bool, error)
+	GetProductPriceFromID(productID int) (float64, error)
+	GetProductsNameFromID(productIDS []int) ([]models.ProductName, error)
 }

@@ -40,7 +40,49 @@ func (p *productClient) DoesProductExist(productID int) (bool,error) {
 		return false,err
 	}
 
-	return res.Result,nil
+	return res.Prouctexist,nil
+
+}
+
+func (p *productClient) GetProductPriceFromID(productID int) (float64,error) {
+
+	res, err := p.client.GetProductPriceFromID(context.Background(),&pb.ProductPriceFromIDRequest{
+		Productid: int64(productID),
+	})
+
+	if err != nil {
+		return 0.0,err
+	}
+
+	return float64(res.Price),nil
+
+}
+
+func (p *productClient) GetProductNamesFromID(productId []int) (map[int]string,error) {
+
+	var productMap []*pb.ProductIDS
+
+	for _,p := range productId {
+		productMap = append(productMap, &pb.ProductIDS{
+			Productid: int64(p),
+		})
+	}
+
+	res, err := p.client.GetCartProductsNameFromID(context.Background(),&pb.ProductIDSRequest{
+		Allproductids: productMap,
+	})
+
+	if err != nil {
+		return map[int]string{},nil
+	}
+
+	products  := make(map[int]string)
+	for _,p := range res.Productswithid {
+		fmt.Println("PRODUCT NAME: ",p.Productname)
+		products[int(p.Productid)] = p.Productname
+	}
+
+	return products,nil
 
 }
 

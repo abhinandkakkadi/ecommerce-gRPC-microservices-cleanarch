@@ -6,4 +6,5 @@ type CartUseCase interface {
 
 	AddToCart(productID int, userID int) (int,error)
 	DisplayCArt(userID int) (models.CartResponse,error)	
+
 }

@@ -8,13 +8,15 @@ package pb
 
 import (
 	context "context"
+	"fmt"
+	reflect "reflect"
+	sync "sync"
+
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	reflect "reflect"
-	sync "sync"
 )
 
 const (
@@ -498,6 +500,7 @@ func NewCartServiceClient(cc grpc.ClientConnInterface) CartServiceClient {
 
 func (c *cartServiceClient) AddToCart(ctx context.Context, in *AddToCartRequest, opts ...grpc.CallOption) (*AddToCartResponse, error) {
 	out := new(AddToCartResponse)
+	fmt.Println("cart request userID := ",in.Productid,"productID := ",in.Productid)
 	err := c.cc.Invoke(ctx, "/cart.CartService/AddToCart", in, out, opts...)
 	if err != nil {
 		return nil, err

@@ -16,7 +16,7 @@ type cartClient struct {
 }
 
 func NewCartClient(cfg config.Config) interfaces.CartClient {
-
+	fmt.Println("cartsvc url = ",cfg.CartSvcUrl)
 	grpcConnectoin, err := grpc.Dial(cfg.CartSvcUrl, grpc.WithInsecure())
 	if err != nil {
 		fmt.Println("Could not connect", err)
@@ -36,6 +36,7 @@ func (c *cartClient) AddToCart(productID int, userID int) (int, error) {
 		Productid: int64(productID),
 		Userid:    int64(userID),
 	})
+	fmt.Println("did error happen ath this point")
 
 	if err != nil {
 		return 400, err

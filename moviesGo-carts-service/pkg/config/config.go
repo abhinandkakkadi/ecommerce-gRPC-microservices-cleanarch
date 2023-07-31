@@ -11,6 +11,7 @@ type Config struct {
 	DBPort     string `mapstructure:"DB_PORT"`
 	DBPassword string `mapstructure:"DB_PASSWORD"`
 	Port       string `mapstructure:"PORT"`
+	ProductSvcUrl   string `mapstructure:"PRODUCT_SVC_URL"`
 }
 
 func LoadConfig() (config Config, err error) {

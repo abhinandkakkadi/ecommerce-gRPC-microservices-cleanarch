@@ -25,7 +25,7 @@ func UserRoutes(router *gin.RouterGroup, userHandler *handler.UserHandler, userC
 
 	cart := router.Group("/cart")
 	{
-		cart.POST("/addtocart/:id", cartHandler.AddToCart)
+		cart.GET("/addtocart/:id", cartHandler.AddToCart)
 		// cart.DELETE("/removefromcart/:id", cartHandler.RemoveFromCart)
 		cart.GET("", cartHandler.DisplayCart)
 		// cart.DELETE("", cartHandler.EmptyCart)

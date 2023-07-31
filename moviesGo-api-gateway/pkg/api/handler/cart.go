@@ -3,6 +3,7 @@ package handler
 import (
 	// "net/http"
 	// "strconv"
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -47,8 +48,9 @@ func (cr *CartHandler) AddToCart(c *gin.Context) {
 		return
 	}
 
-	userID, _ := c.Get("user_id")
-	cartResponse, err := cr.cartClient.AddToCart(product_id, userID.(int))
+	userID,_ := c.Get("userID")
+	fmt.Println("UserID value : ",userID)
+	cartResponse, err := cr.cartClient.AddToCart(product_id, int(userID.(int64)))
 
 	if err != nil {
 		errorRes := response.ClientResponse(http.StatusInternalServerError, "could not add product to the cart", nil, err.Error())

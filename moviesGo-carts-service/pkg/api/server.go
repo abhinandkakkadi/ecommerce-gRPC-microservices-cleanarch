@@ -31,6 +31,6 @@ func NewGRPCServer(cfg config.Config, server pb.CartServiceServer) (*Server, err
 }
 
 func (c *Server) Start() error {
-	fmt.Println("grpc server listening on port :50052")
+	fmt.Println("grpc server listening on port :50055")
 	return c.server.Serve(c.listener)
 }

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
+	interfaces "github.com/abhinandkakkadi/moviesgo-api-gateway/pkg/client/interface"
 	services "github.com/abhinandkakkadi/moviesgo-api-gateway/pkg/client/interface"
 	config "github.com/abhinandkakkadi/moviesgo-api-gateway/pkg/config"
 	"github.com/abhinandkakkadi/moviesgo-api-gateway/pkg/user/pb"
@@ -15,9 +16,10 @@ import (
 
 type userClient struct {
 	client pb.AuthServiceClient
+	cartClient interfaces.CartClient
 }
 
-func NewUserClient(cfg config.Config) services.UserClient {
+func NewUserClient(cfg config.Config,cartClient interfaces.CartClient) services.UserClient {
 
 	grpcConnectoin, err := grpc.Dial(cfg.AuthSvcUrl, grpc.WithInsecure())
 	if err != nil {
@@ -28,6 +30,7 @@ func NewUserClient(cfg config.Config) services.UserClient {
 
 	return &userClient{
 		client: grpcClient,
+		cartClient: cartClient,
 	}
 
 }
@@ -92,4 +95,65 @@ func (u *userClient) LoginHandler(userAuthDetails models.UserLogin) (string, err
 	}
 
 	return res.Token, nil
+}
+
+func (u *userClient) AddAddress(address models.AddressInfo, userID int) (int,error) {
+
+		res, err := u.client.AddAddress(context.Background(),
+	&pb.AddAddressRequest{
+		Userid: int64(userID),
+		Name: address.Name,
+		Housename: address.HouseName,
+		City: address.City,
+	})
+
+	if err != nil {
+		return 400,err
+	}
+
+	return int(res.Status),nil
+}
+
+func (u *userClient) GetAllAddress(userID int) ([]models.AddressInfoResponse,error) {
+
+	res, err := u.client.GetAddress(context.Background(),
+	&pb.GetAddressRequest{Userid: int64(userID)})
+
+	if  err != nil {
+		return []models.AddressInfoResponse{},err
+	}
+	
+	var addressResponse []models.AddressInfoResponse
+	for _,address := range res.Addresses {
+		addressResponse = append(addressResponse,models.AddressInfoResponse{
+			ID: uint(address.Id),
+			UserID: uint(address.Userid),
+			Name: address.Name,
+			HouseName: address.Housename,
+			City: address.City,
+		})
+	}
+
+	return addressResponse,nil
+}
+
+func (u *userClient) Checkout(userID int) (models.CheckoutDetails,error) {
+	
+			address, err := u.GetAllAddress(userID)
+			if err != nil {
+				return models.CheckoutDetails{},err
+			}
+
+			cartsDetails, err := u.cartClient.DisplayCart(userID)
+			if err != nil {
+				return models.CheckoutDetails{},err
+			}
+
+			
+			return models.CheckoutDetails{
+				AddressInfoResponse: address,
+				Cart: cartsDetails.Cart,
+				Grand_Total: cartsDetails.TotalPrice,
+			},nil
+
 }

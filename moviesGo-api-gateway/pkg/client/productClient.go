@@ -17,7 +17,7 @@ type productClient struct {
 }
 
 func NewProductClient(cfg config.Config) interfaces.ProductClient {
-	fmt.Println("product client: ",cfg.ProductSvcUrl)
+	fmt.Println("product client: ", cfg.ProductSvcUrl)
 	grpcConnectoin, err := grpc.Dial(cfg.ProductSvcUrl, grpc.WithInsecure())
 	if err != nil {
 		fmt.Println("Could not connect", err)

@@ -22,6 +22,22 @@ type UserDetailsResponse struct {
 	Password string
 }
 
+type AddressInfo struct {
+	UserID int
+	Name      string 
+	HouseName string 
+	City      string 
+}
+
+type AddressInfoResponse struct {
+	ID int
+	UserID int
+	Name      string 
+	HouseName string 
+	City      string 
+}
+
+
 // type UserDetailsAtAdmin struct {
 // 	Id          int    `json:"id"`
 // 	Name        string `json:"name"`

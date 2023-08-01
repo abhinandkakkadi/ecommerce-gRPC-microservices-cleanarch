@@ -6,6 +6,8 @@ type UserRepository interface {
 	AddUserDetails(user models.UserDetails) (int, error)
 	FindUserByEmail(user models.UserLogin) (models.UserDetailsResponse, error)
 	CheckUserAvailability(email string) bool
+	AddAddress(addressInfo models.AddressInfo) error
+	GetUserAddress(userID int) ([]models.AddressInfoResponse,error)
 	// UserBlockStatus(email string) (bool, error)
 	// LoginHandler(user models.UserDetails) (models.UserDetailsResponse, error)
 	// AddAddress(address models.AddressInfo, userID int) error

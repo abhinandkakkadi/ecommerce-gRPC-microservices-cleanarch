@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/abhinandkakkadi/moviesgo-carts-service/pkg/cart/pb"
+	"github.com/abhinandkakkadi/moviesgo-carts-service/pkg/domain"
 	interfaces "github.com/abhinandkakkadi/moviesgo-carts-service/pkg/usecase/interface"
 )
 
@@ -61,6 +62,36 @@ func (c *CartServiceServer) DisplayCart(ctx context.Context, userID *pb.DisplayC
 		Cartproducts: cartProducts,
 	},nil
 	
+
+}
+
+func (c *CartServiceServer) OrderFromCart(ctx context.Context, orderRequest *pb.OrderRequest) (*pb.OrderResponse, error) {
+
+	orderItems := []domain.OrderItems{}
+	for _,product := range orderRequest.Cartproducts {
+		orderItems = append(orderItems, domain.OrderItems{
+			ProductID: int(product.Prdoductid),
+			Quantity: int(product.Quantity),
+			Price: float64(product.Totalprice),
+		})
+	}
+
+	orderWrapper := domain.Order{
+		UserID: int(orderRequest.Userid),
+		AddressID: int(orderRequest.Addressid),
+		Items: orderItems,
+	}
+
+	orderId, err := c.cartUseCase.OrderItemsFromCarts(orderWrapper)
+	if err != nil {
+		return &pb.OrderResponse{
+
+		},err
+	}
+
+	return &pb.OrderResponse{
+		Orderid: int64(orderId),
+	},nil
 
 }
 

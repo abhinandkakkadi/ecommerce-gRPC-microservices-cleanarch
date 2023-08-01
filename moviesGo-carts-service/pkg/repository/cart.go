@@ -3,6 +3,7 @@ package repository
 import (
 	"fmt"
 
+	"github.com/abhinandkakkadi/moviesgo-carts-service/pkg/domain"
 	interfaces "github.com/abhinandkakkadi/moviesgo-carts-service/pkg/repository/interface"
 	"github.com/abhinandkakkadi/moviesgo-carts-service/pkg/utils/models"
 	"gorm.io/gorm"
@@ -66,3 +67,26 @@ func (c *CartDatabase) GetUserCartFromID(userID int) ([]models.Cart,error) {
 
 	return carts,nil
 }
+
+func (c *CartDatabase) CreateNewOrder(orderProducts domain.Order) (int,error) {
+
+	err := c.DB.Create(&orderProducts).Error
+	if err != nil {
+		return 0,err
+	}
+
+	return int(orderProducts.ID),nil
+
+}	
+
+func (c *CartDatabase) DeleteCartItems(userID int) error {
+
+	err := c.DB.Exec("DELETE FROM carts where user_id = ?",userID).Error
+	if err != nil {
+		return err
+	}
+
+	return nil
+
+}
+

@@ -16,7 +16,7 @@ type cartClient struct {
 }
 
 func NewCartClient(cfg config.Config) interfaces.CartClient {
-	fmt.Println("cartsvc url = ",cfg.CartSvcUrl)
+	fmt.Println("cartsvc url = ", cfg.CartSvcUrl)
 	grpcConnectoin, err := grpc.Dial(cfg.CartSvcUrl, grpc.WithInsecure())
 	if err != nil {
 		fmt.Println("Could not connect", err)
@@ -48,28 +48,63 @@ func (c *cartClient) AddToCart(productID int, userID int) (int, error) {
 
 func (c *cartClient) DisplayCart(userID int) (models.CartResponse, error) {
 
-	res, err := c.cartClient.DisplayCart(context.Background(),&pb.DisplayCartRequest{
+	res, err := c.cartClient.DisplayCart(context.Background(), &pb.DisplayCartRequest{
 		Userid: int64(userID),
 	})
 
 	if err != nil {
-		return models.CartResponse{},err
+		return models.CartResponse{}, err
 	}
 
 	var cartRes models.CartResponse
 	cartRes.TotalPrice = float64(res.Totalprice)
-	
-	for _,carts := range res.Cartproducts {
+
+	for _, carts := range res.Cartproducts {
 		cartRes.Cart = append(cartRes.Cart, models.Cart{
-			ProductID: uint(carts.Prdoductid),
-			MovieName: carts.Moviename,
-			Quantity: float64(carts.Quantity),
+			ProductID:  uint(carts.Prdoductid),
+			MovieName:  carts.Moviename,
+			Quantity:   float64(carts.Quantity),
 			TotalPrice: float64(carts.Totalprice),
 		})
 	}
 
-	fmt.Println("DISPLAY CARTS: ",cartRes)
+	fmt.Println("DISPLAY CARTS: ", cartRes)
 
-	return cartRes,nil
+	return cartRes, nil
 
 }
+
+func (c *cartClient) OrderItemsFromCart(address models.OrderFromCart, userID int) (int,error) {
+
+	res, err := c.cartClient.DisplayCart(context.Background(), &pb.DisplayCartRequest{
+		Userid: int64(userID),
+	})
+
+	if err != nil {
+		return 0,nil
+	}
+
+	cartProducts := []*pb.Cart{}
+	for _, carts := range res.Cartproducts {
+			cartProducts = append(cartProducts, &pb.Cart{
+				Prdoductid: carts.Prdoductid,
+				Moviename: carts.Moviename,
+				Quantity: carts.Quantity,
+				Totalprice: carts.Totalprice,
+			})
+	}
+
+	orderStatus, err := c.cartClient.OrderFromCart(context.Background(),&pb.OrderRequest{
+		Addressid: int64(address.AddressID),
+		Userid: int64(userID),
+		Cartproducts: cartProducts,
+	})
+
+	if err != nil {
+		return 0,nil
+	}
+
+	return int(orderStatus.Orderid),nil
+
+}
+ 

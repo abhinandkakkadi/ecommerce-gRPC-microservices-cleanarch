@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	client "github.com/abhinandkakkadi/moviesgo-carts-service/pkg/client/interface"
+	"github.com/abhinandkakkadi/moviesgo-carts-service/pkg/domain"
 	interfaces "github.com/abhinandkakkadi/moviesgo-carts-service/pkg/repository/interface"
 	services "github.com/abhinandkakkadi/moviesgo-carts-service/pkg/usecase/interface"
 	"github.com/abhinandkakkadi/moviesgo-carts-service/pkg/utils/models"
@@ -91,11 +92,42 @@ func (c *cartUseCase)	DisplayCArt(userID int) (models.CartResponse,error) {
 			userCarts[i].MovieName = movieName
 		} 
 	}
+
 	
 	return models.CartResponse{
 		TotalPrice: GrandTotal,
 		Cart: userCarts,
 	},nil
 
+}
+
+func (c *cartUseCase) OrderItemsFromCarts(orderItems domain.Order) (int,error)	 {
+
+	grandTotal := 0.0
+	for _,val := range orderItems.Items {
+		grandTotal += val.Price
+	}
+
+	orderItems.TotalPrice = grandTotal
+
+	// TO DO 
+	// if address exist
+	// if the cart corresponds to the same user
+
+	if orderItems.Items == nil {
+		return 0,errors.New("cart empty")
+	}
+
+	orderID, err := c.cartRepository.CreateNewOrder(orderItems)
+	if err != nil {
+		return 0,err
+	}
+
+	err = c.cartRepository.DeleteCartItems(orderItems.UserID)
+	if err != nil {
+		return 0,err
+	}	
+
+	return orderID,nil
 }
 

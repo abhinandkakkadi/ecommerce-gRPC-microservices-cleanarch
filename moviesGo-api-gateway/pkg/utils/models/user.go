@@ -56,19 +56,16 @@ type UserSignInResponse struct {
 type AddressInfo struct {
 	Name      string `json:"name" binding:"required" validate:"required"`
 	HouseName string `json:"house_name" binding:"required" validate:"required"`
-	State     string `json:"state" binding:"required" validate:"required"`
-	Pin       string `json:"pin" binding:"required" validate:"required"`
-	Street    string `json:"street" binding:"required"`
 	City      string `json:"city" binding:"required"`
 }
 
+
+
 type AddressInfoResponse struct {
 	ID        uint   `json:"id"`
+	UserID    uint   `json:"user_id"`
 	Name      string `json:"name" validate:"required"`
 	HouseName string `json:"house_name" validate:"required"`
-	State     string `json:"state" validate:"required"`
-	Pin       string `json:"pin" validate:"required"`
-	Street    string `json:"street"`
 	City      string `json:"city"`
 }
 
@@ -79,11 +76,8 @@ type PaymentDetails struct {
 
 type CheckoutDetails struct {
 	AddressInfoResponse []AddressInfoResponse
-	Payment_Method      []PaymentDetails
-	Wallet              Wallet
 	Cart                []Cart
 	Grand_Total         float64
-	Total_Price         float64
 }
 
 type UpdatePassword struct {

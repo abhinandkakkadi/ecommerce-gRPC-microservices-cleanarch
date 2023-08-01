@@ -7,8 +7,18 @@ option go_package = "./pkg/cart/pb";
 service CartService {
   rpc AddToCart(AddToCartRequest) returns (AddToCartResponse) {};
   rpc DisplayCart(DisplayCartRequest) returns (DisplayCartResponse) {};
+  rpc OrderFromCart(OrderRequest) returns (OrderResponse) {};
 }
 
+message OrderRequest {
+  repeated Cart cartproducts = 1;
+  int64 addressid = 2;
+  int64 userid = 3;
+}
+
+message OrderResponse {
+  int64 orderid = 1;
+}
 
 message AddToCartRequest {
   int64 productid = 1;

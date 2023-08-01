@@ -13,3 +13,8 @@ type CartResponse struct {
 	Cart       []Cart
 }
 
+type OrderRequest struct {
+	Cart []Cart
+	AddressID int
+	UserId int
+}

@@ -9,9 +9,39 @@ service AuthService {
   rpc UserSignUp(SingUpRequest) returns (SignUpResponse) {};
   rpc UserLogin(LoginInRequest) returns (LoginResponse) {};
   rpc ValidateUser(ValidateRequest) returns (ValidateResponse) {};
+  rpc AddAddress(AddAddressRequest) returns (AddAddressResponse) {};
+  rpc GetAddress(GetAddressRequest) returns (GetAddressResponse) {};
 }
 
 // Register
+
+message AddAddressRequest {
+  int64 userid = 4;
+  string name = 1;
+  string housename = 2;
+  string city = 3;
+}
+
+message AddAddressResponse {
+  int64 status = 1;
+}
+
+message GetAddressRequest {
+  int64 userid = 1;
+}
+
+message AddressResponse {
+  int64 id = 5;
+  int64 userid = 4;
+  string name = 1;
+  string housename = 2;
+  string city = 3;
+}
+
+message GetAddressResponse {
+  repeated AddressResponse addresses = 2;
+}
+
 
 message RegisterRequest {
   string request = 1;

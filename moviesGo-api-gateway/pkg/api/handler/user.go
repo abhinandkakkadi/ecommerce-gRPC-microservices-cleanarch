@@ -116,94 +116,93 @@ func (u *UserHandler) LoginHandler(c *gin.Context) {
 
 }
 
-// // @Summary AddAddress functionality for user
-// // @Description AddAddress functionality at the user side
-// // @Tags User Profile
-// // @Accept json
-// // @Produce json
-// // @Security Bearer
-// // @Param address body models.AddressInfo true "User Address Input"
-// // @Success 200 {object} response.Response{}
-// // @Failure 500 {object} response.Response{}
-// // @Router /address [post]
-// func (u *UserHandler) AddAddress(c *gin.Context) {
+// @Summary AddAddress functionality for user
+// @Description AddAddress functionality at the user side
+// @Tags User Profile
+// @Accept json
+// @Produce json
+// @Security Bearer
+// @Param address body models.AddressInfo true "User Address Input"
+// @Success 200 {object} response.Response{}
+// @Failure 500 {object} response.Response{}
+// @Router /address [post]
+func (u *UserHandler) AddAddress(c *gin.Context) {
 
-// 	userID, _ := c.Get("user_id")
+	userID, _ := c.Get("userID")
 
-// 	var address models.AddressInfo
+	var address models.AddressInfo
 
-// 	if err := c.ShouldBindJSON(&address); err != nil {
-// 		errRes := response.ClientResponse(http.StatusBadRequest, "fields provided are in wrong format", nil, err.Error())
-// 		c.JSON(http.StatusBadRequest, errRes)
-// 		return
-// 	}
+	if err := c.ShouldBindJSON(&address); err != nil {
+		errRes := response.ClientResponse(http.StatusBadRequest, "fields provided are in wrong format", nil, err.Error())
+		c.JSON(http.StatusBadRequest, errRes)
+		return
+	}
 
-// 	err := validator.New().Struct(address)
+	err := validator.New().Struct(address)
 
-// 	if err != nil {
-// 		errRes := response.ClientResponse(http.StatusBadRequest, "constraints does not match", nil, err.Error())
-// 		c.JSON(http.StatusBadRequest, errRes)
-// 		return
-// 	}
+	if err != nil {
+		errRes := response.ClientResponse(http.StatusBadRequest, "constraints does not match", nil, err.Error())
+		c.JSON(http.StatusBadRequest, errRes)
+		return
+	}
 
-// 	err = u.userUseCase.AddAddress(address, userID.(int))
+	_, err = u.userClient.AddAddress(address, int(userID.(int64)))
+	if err != nil {
+		errRes := response.ClientResponse(http.StatusInternalServerError, "failed adding address", nil, err.Error())
+		c.JSON(http.StatusInternalServerError, errRes)
+		return
+	}
 
-// 	if err != nil {
-// 		errRes := response.ClientResponse(http.StatusInternalServerError, "failed adding address", nil, err.Error())
-// 		c.JSON(http.StatusInternalServerError, errRes)
-// 		return
-// 	}
+	successRes := response.ClientResponse(http.StatusCreated, "address added successfully", nil, nil)
+	c.JSON(http.StatusCreated, successRes)
 
-// 	successRes := response.ClientResponse(http.StatusCreated, "address added successfully", nil, nil)
-// 	c.JSON(http.StatusCreated, successRes)
+}
 
-// }
+// @Summary Checkout Order
+// @Description Checkout at the user side
+// @Tags User Checkout
+// @Accept json
+// @Produce json
+// @Security Bearer
+// @Success 200 {object} response.Response{}
+// @Failure 500 {object} response.Response{}
+// @Router /checkout [get]
+func (u *UserHandler) CheckOut(c *gin.Context) {
 
-// // @Summary Checkout Order
-// // @Description Checkout at the user side
-// // @Tags User Checkout
-// // @Accept json
-// // @Produce json
-// // @Security Bearer
-// // @Success 200 {object} response.Response{}
-// // @Failure 500 {object} response.Response{}
-// // @Router /checkout [get]
-// func (u *UserHandler) CheckOut(c *gin.Context) {
+	userID, _ := c.Get("userID")
+	checkoutDetails, err := u.userClient.Checkout(int(userID.(int64)))
 
-// 	userID, _ := c.Get("user_id")
-// 	checkoutDetails, err := u.userUseCase.Checkout(userID.(int))
+	if err != nil {
+		errorRes := response.ClientResponse(http.StatusInternalServerError, "failed to retrieve details", nil, err.Error())
+		c.JSON(http.StatusInternalServerError, errorRes)
+		return
+	}
 
-// 	if err != nil {
-// 		errorRes := response.ClientResponse(http.StatusInternalServerError, "failed to retrieve details", nil, err.Error())
-// 		c.JSON(http.StatusInternalServerError, errorRes)
-// 		return
-// 	}
+	successRes := response.ClientResponse(http.StatusOK, "Checkout Page loaded successfully", checkoutDetails, nil)
+	c.JSON(http.StatusOK, successRes)
+}
 
-// 	successRes := response.ClientResponse(http.StatusOK, "Checkout Page loaded successfully", checkoutDetails, nil)
-// 	c.JSON(http.StatusOK, successRes)
-// }
+// @Summary Get all address for the user
+// @Description Display all the added user addresses
+// @Tags User Profile
+// @Accept json
+// @Produce json
+// @Security Bearer
+// @Success 200 {object} response.Response{}
+// @Failure 500 {object} response.Response{}
+// @Router /users/address [get]
+func (u *UserHandler) GetAllAddress(c *gin.Context) {
 
-// // @Summary Get all address for the user
-// // @Description Display all the added user addresses
-// // @Tags User Profile
-// // @Accept json
-// // @Produce json
-// // @Security Bearer
-// // @Success 200 {object} response.Response{}
-// // @Failure 500 {object} response.Response{}
-// // @Router /users/address [get]
-// func (u *UserHandler) GetAllAddress(c *gin.Context) {
+	userID, _ := c.Get("userID")
+	userAddress, err := u.userClient.GetAllAddress(int(userID.(int64)))
 
-// 	userID, _ := c.Get("user_id")
-// 	userAddress, err := u.userUseCase.GetAllAddress(userID.(int))
+	if err != nil {
+		errorRes := response.ClientResponse(http.StatusInternalServerError, "failed to retrieve details", nil, err.Error())
+		c.JSON(http.StatusInternalServerError, errorRes)
+		return
+	}
 
-// 	if err != nil {
-// 		errorRes := response.ClientResponse(http.StatusInternalServerError, "failed to retrieve details", nil, err.Error())
-// 		c.JSON(http.StatusInternalServerError, errorRes)
-// 		return
-// 	}
+	successRes := response.ClientResponse(http.StatusOK, "User Address", userAddress, nil)
+	c.JSON(http.StatusOK, successRes)
 
-// 	successRes := response.ClientResponse(http.StatusOK, "User Address", userAddress, nil)
-// 	c.JSON(http.StatusOK, successRes)
-
-// }
+}

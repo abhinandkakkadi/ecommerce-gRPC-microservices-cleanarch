@@ -12,14 +12,16 @@ func UserRoutes(router *gin.RouterGroup, userHandler *handler.UserHandler, userC
 	router.POST("/signup", userHandler.UserSignUp)
 	router.POST("/login", userHandler.LoginHandler)
 
-	router.Use(userClient.UserAuthRequired)
-	router.GET("/sample", userHandler.SampleRequest)
 	product := router.Group("/products")
 
 	{
 		product.GET("", productHandler.ShowAllProductToAdmin)
 		product.GET("/page/:page", productHandler.ShowAllProductToAdmin)
 	}
+
+	router.Use(userClient.UserAuthRequired)
+	router.GET("/sample", userHandler.SampleRequest)
+	
 
 	cart := router.Group("/cart")
 	{

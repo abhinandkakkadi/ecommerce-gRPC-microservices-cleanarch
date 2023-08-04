@@ -1,0 +1,118 @@
+version: "3.9"
+services:
+  api-gateway:
+    image: abhinandkakkadi/moviesgo-api-gateway
+    environment:
+      - PORT=:3000
+      - AUTH_SVC_URL=ath-svc:50051
+      - PRODUCT_SVC_URL=product-svc:50052
+      - CART_SVC_URL=cart-svc:50055
+      - ADMIN_AUTH_SVC_URL=admin-auth-svc:50054
+    ports:
+      - "3000:3000"
+    depends_on:
+      - auth-svc
+      - product-svc
+      - cart-svc
+    restart: always
+
+  auth-svc:
+    image: abhinandkakkadi/moviesgo-users-service
+    ports:
+      - "50051:50051"
+    environment:
+      - PORT=:50051
+      - DB_HOST="users-db"
+      - DB_NAME="users"
+      - DB_USER="postgres"
+      - DB_PORT="5432"
+      - DB_PASSWORD="postgres"
+    depends_on:
+      - users-db
+    restart: always
+
+  product-svc:
+    image: abhinandkakkadi/moviesgo-product-service
+    ports:
+      - "50052:50052"
+    environment:
+      - PORT=:50052
+      - DB_HOST="product-db"
+      - DB_NAME="products"
+      - DB_USER="postgres"
+      - DB_PORT="5432"
+      - DB_PASSWORD="postgres"
+    depends_on:
+      - product-db
+    restart: always
+
+  cart-svc:
+    image: abhinandkakkadi/moviesgo-carts-service
+    ports:
+      - "50055:50055"
+    environment:
+      - PORT=:50055
+      - DB_HOST="carts-db"
+      - DB_NAME="carts"
+      - DB_USER="postgres"
+      - DB_PORT="5432"
+      - DB_PASSWORD="postgres"
+      - PRODUCT_SVC_URL=product-svc:50052
+    depends_on:
+      - carts-db
+      - product-svc
+    restart: always
+
+  admin-auth-svc:
+    image: abhinandkakkadi/moviesgo-admins-service
+    ports:
+      - "50054:50054"
+    environment:
+      - PORT=:50054
+      - DB_HOST="admins-db"
+      - DB_NAME="admins"
+      - DB_USER="postgres"
+      - DB_PORT="5432"
+      - DB_PASSWORD="postgres"
+    depends_on:
+      - admins-db
+    restart: always
+
+  users-db:
+    image: postgres:latest
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_DB=users
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    restart: always
+
+  product-db:
+    image: postgres:latest
+    ports:
+      - "5434:5432"
+    environment:
+      - POSTGRES_DB=products
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    restart: always
+
+  carts-db:
+    image: postgres:latest
+    ports:
+      - "5435:5432"
+    environment:
+      - POSTGRES_DB=carts
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    restart: always
+
+  admins-db:
+    image: postgres:latest
+    ports:
+      - "5436:5432"
+    environment:
+      - POSTGRES_DB=admins
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres

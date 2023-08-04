@@ -48,7 +48,7 @@ func (u *UserServiceServer) UserSignUp(ctx context.Context, userDetails *pb.Sing
 		return &pb.SignUpResponse{
 			Status: int64(status),
 			Error:  err.Error(),
-		}, nil
+		}, err
 
 	}
 
@@ -70,7 +70,7 @@ func (u *UserServiceServer) UserLogin(ctx context.Context, user *pb.LoginInReque
 		return &pb.LoginResponse{
 			Token: "",
 			Error: err.Error(),
-		}, nil
+		}, err
 	}
 
 	return &pb.LoginResponse{

@@ -35,7 +35,7 @@ func (a *AdminServiceServer) AdminSignUp(ctx context.Context, userSignUpDetails 
 		return &pb.AdminSignUpResponse{
 			Status: int64(status),
 			Error:  err.Error(),
-		}, nil
+		}, err
 	}
 
 	return &pb.AdminSignUpResponse{
@@ -56,7 +56,7 @@ func (a *AdminServiceServer) AdminLogin(ctx context.Context, adminLoginDetails *
 	if err != nil {
 		return &pb.AdminLoginResponse{
 			Error: err.Error(),
-		}, nil
+		}, err
 	}
 
 	return &pb.AdminLoginResponse{

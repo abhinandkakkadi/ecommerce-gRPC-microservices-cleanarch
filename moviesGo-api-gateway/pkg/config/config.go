@@ -19,6 +19,14 @@ func LoadConfig() (Config, error) {
 
 	viper.AddConfigPath("./")
 	viper.SetConfigFile(".env")
+
+	// viper.SetConfigName("dev")
+
+	viper.SetConfigType("env")
+
+	viper.AutomaticEnv()
+	// automatically bind environment variable
+	
 	viper.ReadInConfig()
 
 	if err := viper.Unmarshal(&config); err != nil {

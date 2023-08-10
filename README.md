@@ -9,6 +9,7 @@ enter into the root directory of each individual service and run the command
 
 ```bash
   make run
+  OR
   docker-compose up -d
 ```
 

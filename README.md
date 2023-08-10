@@ -5,27 +5,13 @@ built using clean architecture design pattern
 
 ## Run Locally
 
-enter into the root directory of each individual service and run the command
+enter into the root directory and run 
 
 ```bash
-  make run
-  OR
   docker-compose up -d
 ```
 
-## Environment Variables
 
-To run this project, you will need to add the following environment variables to your .env file
-
-`DB_HOST`=`your database host name`
-
-`DB_NAME`=`your database name`
-
-`DB_USER`=`your database username`
-
-`DB_PORT`=`your database port number`
-
-`DB_PASSWORD`=`your database owner password`
 
 ## 🔗 Reach Me
 

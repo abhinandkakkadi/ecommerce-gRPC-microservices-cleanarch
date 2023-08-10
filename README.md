@@ -5,7 +5,7 @@ built using clean architecture design pattern
 
 ## Run Locally
 
-enter into the root directory of each individual service and type the command
+enter into the root directory of each individual service and run the command
 
 ```bash
   make run

@@ -1,6 +1,6 @@
 ## Project Overview
 
-An E-commerce project broken down into 4 services running on their individual ports. It's actually a broken down version of my e-commerce project
+An E-commerce project broken down into 4 services (admins, carts, products, users) and API gateway all running on their individual ports. It's actually a broken down version of my e-commerce project
 built using clean architecture design pattern
 
 ## Run Locally

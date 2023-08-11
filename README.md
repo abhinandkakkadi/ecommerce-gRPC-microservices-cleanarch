@@ -6,19 +6,19 @@ An e-commerce app broken down into 4 services (admins, carts, products, users) a
 
 enter into the root directory and run 
 
-stops docker-compose (if running), builds all projects and starts docker compose
+
 ```bash
-  make up_build
+  make up_build  #stops docker-compose (if running), builds all projects and starts docker compose
 ```
 
-stop docker compose
+
 ```bash
-  make down
+  make down  #stop docker compose 
 ```
 
-starts all containers in the background without forcing build
+
 ```bash
-  docker-compose up -d
+  docker-compose up -d  #starts all containers in the background without forcing build
 ```
 
 ## 🔗 Reach Me

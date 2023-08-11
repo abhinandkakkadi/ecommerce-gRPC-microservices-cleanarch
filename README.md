@@ -7,11 +7,20 @@ built using clean architecture design pattern
 
 enter into the root directory and run 
 
+stops docker-compose (if running), builds all projects and starts docker compose
+```bash
+  make up_build
+```
+
+stop docker compose
+```bash
+  make down
+```
+
+starts all containers in the background without forcing build
 ```bash
   docker-compose up -d
 ```
-
-
 
 ## 🔗 Reach Me
 

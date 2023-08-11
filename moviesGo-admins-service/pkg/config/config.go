@@ -13,24 +13,28 @@ type Config struct {
 	Port       string `mapstructure:"PORT"`
 }
 
-func LoadConfig() (config Config, err error) {
+var envs = []string{
+	"DB_HOST", "DB_NAME", "DB_USER", "DB_PORT", "DB_PASSWORD", "PORT",
+}
+
+func LoadConfig() (Config, error) {
+	var config Config
+
 	viper.AddConfigPath("./")
 	viper.SetConfigFile(".env")
-	// viper.SetConfigName("dev")
+	viper.ReadInConfig()
 
-
-	viper.SetConfigType("env")
-
-	// viper.ReadInConfig()
-	viper.AutomaticEnv()
-	
-	err = viper.ReadInConfig()
-
-	if err != nil {
-		return
+	for _, env := range envs {
+		if err := viper.BindEnv(env); err != nil {
+			return config, err
+		}
 	}
 
-	err = viper.Unmarshal(&config)
+	if err := viper.Unmarshal(&config); err != nil {
+		return config, err
+	}
 
-	return
+
+	return config, nil
+
 }

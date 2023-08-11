@@ -1,7 +1,6 @@
 package config
 
 import (
-	"github.com/go-playground/validator/v10"
 	"github.com/spf13/viper"
 )
 
@@ -14,28 +13,27 @@ type Config struct {
 	CartSvcUrl      string `mapstructure:"CART_SVC_URL"`
 }
 
+var envs = []string{
+	"PORT", "AUTH_SVC", "PRODUCT_SVC_URL", "ORDER_SVC_URL", "ADMIN_AUTH_SVC_URL", "CART_SVC_URL",
+}
+
 func LoadConfig() (Config, error) {
 	var config Config
 
 	viper.AddConfigPath("./")
 	viper.SetConfigFile(".env")
-
-	// viper.SetConfigName("dev")
-
-	viper.SetConfigType("env")
-
-	viper.AutomaticEnv()
-	// automatically bind environment variable
-	
 	viper.ReadInConfig()
+
+	for _, env := range envs {
+		if err := viper.BindEnv(env); err != nil {
+			return config, err
+		}
+	}
 
 	if err := viper.Unmarshal(&config); err != nil {
 		return config, err
 	}
 
-	if err := validator.New().Struct(&config); err != nil {
-		return config, err
-	}
 
 	return config, nil
 

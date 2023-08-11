@@ -8,12 +8,12 @@ enter into the root directory and run
 
 
 ```bash
-  make up_build  #stops docker-compose (if running), builds all projects and starts docker compose
+  make up_build  #stops all services (if running), builds all projects and starts docker compose
 ```
 
 
 ```bash
-  make down  #stop docker compose 
+  make down  #stop all services
 ```
 
 

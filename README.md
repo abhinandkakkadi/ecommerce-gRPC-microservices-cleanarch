@@ -18,7 +18,7 @@ enter into the root directory and run
 
 
 ```bash
-  docker-compose up -d  #starts all containers in the background without forcing build
+  docker-compose up -d  #starts all services in the background without forcing build
 ```
 
 ## 🔗 Reach Me

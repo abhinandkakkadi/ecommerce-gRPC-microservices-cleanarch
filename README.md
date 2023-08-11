@@ -8,7 +8,7 @@ enter into the root directory and run
 
 
 ```bash
-  make up_build  #stops all services (if running), builds all projects and starts docker compose
+  make up_build  #stops all services (if running), builds all servies and starts docker compose
 ```
 
 

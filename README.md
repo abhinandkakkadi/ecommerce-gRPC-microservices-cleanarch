@@ -1,6 +1,6 @@
 ## Project Overview
 
-An e-commerce app broken down into 4 services (admins, carts, products, users) and API gateway for direct client communication, all running on their individual ports. It's a broken down version of my e-commerce project built using clean architecture design pattern.
+An e-commerce app broken down into 4 services (admins, carts, products, users) and an API gateway for direct client communication, all running on their individual ports. It's a broken down version of my e-commerce project built using clean architecture design pattern.
 
 ## Run Locally
 

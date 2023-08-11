@@ -6,7 +6,7 @@ services:
       dockerfile: api-gateway.dockerfile
     environment:
       - PORT=:3000
-      - AUTH_SVC_URL=ath-svc:50051
+      - AUTH_SVC_URL=auth-svc:50051
       - PRODUCT_SVC_URL=product-svc:50052
       - CART_SVC_URL=cart-svc:50055
       - ADMIN_AUTH_SVC_URL=admin-auth-svc:50054
@@ -18,6 +18,8 @@ services:
       - cart-svc
       - admin-auth-svc
     restart: always
+    networks:
+      - fullstack
 
   auth-svc:
     build:
@@ -35,6 +37,8 @@ services:
     depends_on:
       - users-db
     restart: always
+    networks:
+      - fullstack
 
   product-svc:
     build:
@@ -52,6 +56,8 @@ services:
     depends_on:
       - product-db
     restart: always
+    networks:
+      - fullstack
 
   cart-svc:
     build:
@@ -71,6 +77,8 @@ services:
       - carts-db
       - product-svc
     restart: always
+    networks:
+      - fullstack
 
   admin-auth-svc:
     build:
@@ -88,6 +96,8 @@ services:
     depends_on:
       - admins-db
     restart: always
+    networks:
+      - fullstack
 
   users-db:
     image: postgres:latest
@@ -98,6 +108,8 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
     restart: always
+    networks:
+      - fullstack
 
   product-db:
     image: postgres:latest
@@ -108,6 +120,8 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
     restart: always
+    networks:
+      - fullstack
 
   carts-db:
     image: postgres:latest
@@ -118,6 +132,8 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
     restart: always
+    networks:
+      - fullstack
 
   admins-db:
     image: postgres:latest
@@ -127,3 +143,9 @@ services:
       - POSTGRES_DB=admins
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+    networks:
+      - fullstack
+
+networks:
+  fullstack:
+    driver: bridge

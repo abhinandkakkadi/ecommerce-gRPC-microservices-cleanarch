@@ -4,18 +4,15 @@ An e-commerce app broken down into 4 services (admins, carts, products, users) a
 
 ## Run Locally
 
-enter into the root directory and run 
-
+enter into the root directory and run
 
 ```bash
-  make up_build  #stops all services (if running), builds all servies and starts docker compose
+  make up_build  #stops all services (if running), builds all services and starts docker compose
 ```
-
 
 ```bash
   make down  #stop all services
 ```
-
 
 ```bash
   docker-compose up -d  #starts all services in the background without forcing build

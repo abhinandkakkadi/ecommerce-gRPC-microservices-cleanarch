@@ -21,7 +21,6 @@ func UserRoutes(router *gin.RouterGroup, userHandler *handler.UserHandler, userC
 
 	router.Use(userClient.UserAuthRequired)
 	router.GET("/sample", userHandler.SampleRequest)
-	
 
 	cart := router.Group("/cart")
 	{

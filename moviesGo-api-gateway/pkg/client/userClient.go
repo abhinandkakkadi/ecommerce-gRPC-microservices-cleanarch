@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/abhinandkakkadi/moviesgo-api-gateway/pkg/client/interceptors"
 	interfaces "github.com/abhinandkakkadi/moviesgo-api-gateway/pkg/client/interface"
 	services "github.com/abhinandkakkadi/moviesgo-api-gateway/pkg/client/interface"
 	config "github.com/abhinandkakkadi/moviesgo-api-gateway/pkg/config"
@@ -15,13 +16,13 @@ import (
 )
 
 type userClient struct {
-	client pb.AuthServiceClient
+	client     pb.AuthServiceClient
 	cartClient interfaces.CartClient
 }
 
-func NewUserClient(cfg config.Config,cartClient interfaces.CartClient) services.UserClient {
+func NewUserClient(cfg config.Config, cartClient interfaces.CartClient) services.UserClient {
 
-	grpcConnectoin, err := grpc.Dial(cfg.AuthSvcUrl, grpc.WithInsecure())
+	grpcConnectoin, err := grpc.Dial(cfg.AuthSvcUrl, grpc.WithInsecure(), interceptors.UnaryClientInterceptor())
 	if err != nil {
 		fmt.Println("Could not connect", err)
 	}
@@ -29,7 +30,7 @@ func NewUserClient(cfg config.Config,cartClient interfaces.CartClient) services.
 	grpcClient := pb.NewAuthServiceClient(grpcConnectoin)
 
 	return &userClient{
-		client: grpcClient,
+		client:     grpcClient,
 		cartClient: cartClient,
 	}
 
@@ -97,63 +98,62 @@ func (u *userClient) LoginHandler(userAuthDetails models.UserLogin) (string, err
 	return res.Token, nil
 }
 
-func (u *userClient) AddAddress(address models.AddressInfo, userID int) (int,error) {
+func (u *userClient) AddAddress(address models.AddressInfo, userID int) (int, error) {
 
-		res, err := u.client.AddAddress(context.Background(),
-	&pb.AddAddressRequest{
-		Userid: int64(userID),
-		Name: address.Name,
-		Housename: address.HouseName,
-		City: address.City,
-	})
+	res, err := u.client.AddAddress(context.Background(),
+		&pb.AddAddressRequest{
+			Userid:    int64(userID),
+			Name:      address.Name,
+			Housename: address.HouseName,
+			City:      address.City,
+		})
 
 	if err != nil {
-		return 400,err
+		return 400, err
 	}
 
-	return int(res.Status),nil
+	return int(res.Status), nil
 }
 
-func (u *userClient) GetAllAddress(userID int) ([]models.AddressInfoResponse,error) {
+func (u *userClient) GetAllAddress(userID int) ([]models.AddressInfoResponse, error) {
 
 	res, err := u.client.GetAddress(context.Background(),
-	&pb.GetAddressRequest{Userid: int64(userID)})
+		&pb.GetAddressRequest{Userid: int64(userID)})
 
-	if  err != nil {
-		return []models.AddressInfoResponse{},err
+	if err != nil {
+		return []models.AddressInfoResponse{}, err
 	}
-	
+
 	var addressResponse []models.AddressInfoResponse
-	for _,address := range res.Addresses {
-		addressResponse = append(addressResponse,models.AddressInfoResponse{
-			ID: uint(address.Id),
-			UserID: uint(address.Userid),
-			Name: address.Name,
+	for _, address := range res.Addresses {
+		addressResponse = append(addressResponse, models.AddressInfoResponse{
+			ID:        uint(address.Id),
+			UserID:    uint(address.Userid),
+			Name:      address.Name,
 			HouseName: address.Housename,
-			City: address.City,
+			City:      address.City,
 		})
 	}
 
-	return addressResponse,nil
+	return addressResponse, nil
 }
 
-func (u *userClient) Checkout(userID int) (models.CheckoutDetails,error) {
-	
-			address, err := u.GetAllAddress(userID)
-			if err != nil {
-				return models.CheckoutDetails{},err
-			}
+func (u *userClient) Checkout(userID int) (models.CheckoutDetails, error) {
 
-			cartsDetails, err := u.cartClient.DisplayCart(userID)
-			if err != nil {
-				return models.CheckoutDetails{},err
-			}
+	address, err := u.GetAllAddress(userID)
+	if err != nil {
+		return models.CheckoutDetails{}, err
+	}
 
-			
-			return models.CheckoutDetails{
-				AddressInfoResponse: address,
-				Cart: cartsDetails.Cart,
-				Grand_Total: cartsDetails.TotalPrice,
-			},nil
+	cartsDetails, err := u.cartClient.DisplayCart(userID)
+	if err != nil {
+		return models.CheckoutDetails{}, err
+	}
+
+	return models.CheckoutDetails{
+		AddressInfoResponse: address,
+		Cart:                cartsDetails.Cart,
+		Grand_Total:         cartsDetails.TotalPrice,
+	}, nil
 
 }

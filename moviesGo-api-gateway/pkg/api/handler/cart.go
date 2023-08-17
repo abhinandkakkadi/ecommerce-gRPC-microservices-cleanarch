@@ -182,7 +182,6 @@ func (o *CartHandler) OrderItemsFromCart(c *gin.Context) {
 
 }
 
-
 // // @Summary Get Order Details to user side
 // // @Description Get all order details done by user to user side
 // // @Tags User Order

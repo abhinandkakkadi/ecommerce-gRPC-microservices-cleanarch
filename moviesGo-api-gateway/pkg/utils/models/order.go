@@ -43,7 +43,6 @@ type FullOrderDetails struct {
 
 // ORDER DETAILS
 
-
 type OrderProducts struct {
 	ProductId string `json:"product_id"`
 	Quantity  int    `json:"quantity"`

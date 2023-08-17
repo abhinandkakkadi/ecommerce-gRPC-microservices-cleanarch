@@ -20,7 +20,7 @@ func InitializeAPI(cfg config.Config) (*http.ServerHTTP, error) {
 	cartClient := client.NewCartClient(cfg)
 	cartHandler := handler.NewCartHandler(cartClient)
 
-	userClient := client.NewUserClient(cfg,cartClient)
+	userClient := client.NewUserClient(cfg, cartClient)
 	userHandler := handler.NewUserHandler(userClient)
 
 	adminClient := client.NewAdminClient(cfg)
@@ -28,7 +28,6 @@ func InitializeAPI(cfg config.Config) (*http.ServerHTTP, error) {
 
 	productClient := client.NewProductClient(cfg)
 	productHandler := handler.NewProductHandler(productClient)
-
 
 	// orderHandler := handler.NewOrderHandler(orderUseCase)
 

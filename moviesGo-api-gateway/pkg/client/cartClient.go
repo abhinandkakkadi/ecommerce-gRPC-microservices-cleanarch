@@ -74,37 +74,36 @@ func (c *cartClient) DisplayCart(userID int) (models.CartResponse, error) {
 
 }
 
-func (c *cartClient) OrderItemsFromCart(address models.OrderFromCart, userID int) (int,error) {
+func (c *cartClient) OrderItemsFromCart(address models.OrderFromCart, userID int) (int, error) {
 
 	res, err := c.cartClient.DisplayCart(context.Background(), &pb.DisplayCartRequest{
 		Userid: int64(userID),
 	})
 
 	if err != nil {
-		return 0,nil
+		return 0, nil
 	}
 
 	cartProducts := []*pb.Cart{}
 	for _, carts := range res.Cartproducts {
-			cartProducts = append(cartProducts, &pb.Cart{
-				Prdoductid: carts.Prdoductid,
-				Moviename: carts.Moviename,
-				Quantity: carts.Quantity,
-				Totalprice: carts.Totalprice,
-			})
+		cartProducts = append(cartProducts, &pb.Cart{
+			Prdoductid: carts.Prdoductid,
+			Moviename:  carts.Moviename,
+			Quantity:   carts.Quantity,
+			Totalprice: carts.Totalprice,
+		})
 	}
 
-	orderStatus, err := c.cartClient.OrderFromCart(context.Background(),&pb.OrderRequest{
-		Addressid: int64(address.AddressID),
-		Userid: int64(userID),
+	orderStatus, err := c.cartClient.OrderFromCart(context.Background(), &pb.OrderRequest{
+		Addressid:    int64(address.AddressID),
+		Userid:       int64(userID),
 		Cartproducts: cartProducts,
 	})
 
 	if err != nil {
-		return 0,nil
+		return 0, nil
 	}
 
-	return int(orderStatus.Orderid),nil
+	return int(orderStatus.Orderid), nil
 
 }
- 

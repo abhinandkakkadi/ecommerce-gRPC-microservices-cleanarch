@@ -59,8 +59,6 @@ type AddressInfo struct {
 	City      string `json:"city" binding:"required"`
 }
 
-
-
 type AddressInfoResponse struct {
 	ID        uint   `json:"id"`
 	UserID    uint   `json:"user_id"`

@@ -10,7 +10,7 @@ type UserClient interface {
 	SignUpRequest(userDetails models.UserDetails) (int, error)
 	LoginHandler(userAuthDetails models.UserLogin) (string, error)
 	AddAddress(address models.AddressInfo, userID int) (int, error)
-	GetAllAddress(userID int) ([]models.AddressInfoResponse,error)
-	Checkout(userID int) (models.CheckoutDetails,error)
+	GetAllAddress(userID int) ([]models.AddressInfoResponse, error)
+	Checkout(userID int) (models.CheckoutDetails, error)
 	UserAuthRequired(c *gin.Context)
 }

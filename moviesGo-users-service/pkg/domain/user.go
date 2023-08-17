@@ -12,16 +12,16 @@ type Users struct {
 
 type Address struct {
 	gorm.Model
-	UserID    uint   
-	Users     Users  `gorm:"foreignkey:UserID"`
-	Name      string 
-	HouseName string 
-	City      string 
+	UserID    uint
+	Users     Users `gorm:"foreignkey:UserID"`
+	Name      string
+	HouseName string
+	City      string
 }
 
 type AddressResponse struct {
-	ID int
-	Name string
+	ID        int
+	Name      string
 	HouseName string
-	City string	
+	City      string
 }

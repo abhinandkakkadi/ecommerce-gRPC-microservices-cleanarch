@@ -4,10 +4,10 @@ import "gorm.io/gorm"
 
 type Cart struct {
 	gorm.Model
-	UserID     uint     `json:"user_id" gorm:"uniquekey; not null"`
-	ProductID  uint     `json:"product_id"`
-	Quantity   float64  `json:"quantity"`
-	TotalPrice float64  `json:"total_price"`
+	UserID     uint    `json:"user_id" gorm:"uniquekey; not null"`
+	ProductID  uint    `json:"product_id"`
+	Quantity   float64 `json:"quantity"`
+	TotalPrice float64 `json:"total_price"`
 }
 
 type Order struct {
@@ -15,7 +15,7 @@ type Order struct {
 	UserID     int
 	AddressID  int
 	TotalPrice float64
-	Items      []OrderItems `gorm:"foreignKey:OrderID"` 
+	Items      []OrderItems `gorm:"foreignKey:OrderID"`
 }
 
 type OrderItems struct {

@@ -100,53 +100,51 @@ func (u *UserServiceServer) ValidateUser(ctx context.Context, token *pb.Validate
 
 func (u *UserServiceServer) AddAddress(ctx context.Context, addressRequest *pb.AddAddressRequest) (*pb.AddAddressResponse, error) {
 
-	addressInfo :=  models.AddressInfo{
-		UserID: int(addressRequest.Userid),
-		Name: addressRequest.Name,
+	addressInfo := models.AddressInfo{
+		UserID:    int(addressRequest.Userid),
+		Name:      addressRequest.Name,
 		HouseName: addressRequest.Housename,
-		City: addressRequest.City,
+		City:      addressRequest.City,
 	}
 
-	status,err := u.userUseCase.AddAddress(addressInfo)
+	status, err := u.userUseCase.AddAddress(addressInfo)
 	if err != nil {
 		return &pb.AddAddressResponse{
 			Status: int64(status),
-		},err
+		}, err
 	}
 
 	return &pb.AddAddressResponse{
 		Status: int64(status),
-	},nil
+	}, nil
 
 }
 
-func (u *UserServiceServer) GetAddress(ctx context.Context, addressRequest *pb.GetAddressRequest) (*pb.GetAddressResponse, error)  {
+func (u *UserServiceServer) GetAddress(ctx context.Context, addressRequest *pb.GetAddressRequest) (*pb.GetAddressResponse, error) {
 
 	userID := int(addressRequest.Userid)
 
-	userAddress,err := u.userUseCase.GetUserAddress(userID)
+	userAddress, err := u.userUseCase.GetUserAddress(userID)
 	if err != nil {
-		return &pb.GetAddressResponse{
-
-		},err
+		return &pb.GetAddressResponse{}, err
 	}
 
 	var addresses []*pb.AddressResponse
 
-	for _,address := range userAddress {
+	for _, address := range userAddress {
 
 		addresses = append(addresses, &pb.AddressResponse{
-			Id: int64(address.ID),
-			Userid: int64(address.UserID),
-			Name: address.Name,
+			Id:        int64(address.ID),
+			Userid:    int64(address.UserID),
+			Name:      address.Name,
 			Housename: address.HouseName,
-			City: address.City,
+			City:      address.City,
 		})
 
 	}
 
 	return &pb.GetAddressResponse{
 		Addresses: addresses,
-	},nil
-	
+	}, nil
+
 }

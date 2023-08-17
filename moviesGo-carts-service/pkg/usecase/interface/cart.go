@@ -6,10 +6,7 @@ import (
 )
 
 type CartUseCase interface {
-
-	AddToCart(productID int, userID int) (int,error)
-	DisplayCArt(userID int) (models.CartResponse,error)
-	OrderItemsFromCarts(orderItems domain.Order) (int,error)	
-	
-
+	AddToCart(productID int, userID int) (int, error)
+	DisplayCArt(userID int) (models.CartResponse, error)
+	OrderItemsFromCarts(orderItems domain.Order) (int, error)
 }

@@ -1,11 +1,10 @@
 package models
 
-
 type Cart struct {
-	ProductID  uint    
-	MovieName  string  
-	Quantity   float64 
-	TotalPrice float64 
+	ProductID  uint
+	MovieName  string
+	Quantity   float64
+	TotalPrice float64
 }
 
 type CartResponse struct {
@@ -14,7 +13,7 @@ type CartResponse struct {
 }
 
 type OrderRequest struct {
-	Cart []Cart
+	Cart      []Cart
 	AddressID int
-	UserId int
+	UserId    int
 }

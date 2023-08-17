@@ -91,21 +91,18 @@ func (p *ProductServiceServer) GetStudioDetails(context.Context, *pb.StudioReque
 	return &pb.AllStudioResponse{}, nil
 }
 
-
-
 func (p *ProductServiceServer) DoesProductExist(ctx context.Context, productID *pb.ProductExistRequest) (*pb.ProductExistResponse, error) {
-
 
 	productExist, err := p.productUseCase.ProductExistInCarts(int(productID.Productid))
 	if err != nil {
 		return &pb.ProductExistResponse{
 			Prouctexist: false,
-		},err
+		}, err
 	}
 
 	return &pb.ProductExistResponse{
 		Prouctexist: productExist,
-	},nil
+	}, nil
 }
 
 func (p *ProductServiceServer) GetProductPriceFromID(ctx context.Context, productID *pb.ProductPriceFromIDRequest) (*pb.ProductPriceFromIDResponse, error) {
@@ -114,56 +111,50 @@ func (p *ProductServiceServer) GetProductPriceFromID(ctx context.Context, produc
 	if err != nil {
 		return &pb.ProductPriceFromIDResponse{
 			Price: 0.0,
-		},err
+		}, err
 	}
 
 	return &pb.ProductPriceFromIDResponse{
 		Price: float32(productPrice),
-	},nil
+	}, nil
 
-} 
-
+}
 
 func (p *ProductServiceServer) GetProductNameFromID(context.Context, *pb.ProductNameFromIDRequest) (*pb.ProductNameFromIDResponse, error) {
 
 	return &pb.ProductNameFromIDResponse{
 		Productname: "okokok",
-	},nil
+	}, nil
 
 }
 
-
 func (p *ProductServiceServer) GetCartProductsNameFromID(ctx context.Context, productID *pb.ProductIDSRequest) (*pb.ProductNamesResponse, error) {
 
-	
 	var productIDS []int
 
-	for _,p := range productID.Allproductids {
+	for _, p := range productID.Allproductids {
 		fmt.Println("product ID associated with this = : ", p.Productid)
 		productIDS = append(productIDS, int(p.Productid))
 	}
 
-	fmt.Println("array of product ID's : ",productIDS)
+	fmt.Println("array of product ID's : ", productIDS)
 
 	productMap, err := p.productUseCase.GetProductsNameFromID(productIDS)
 	if err != nil {
-		return &pb.ProductNamesResponse{},err
+		return &pb.ProductNamesResponse{}, err
 	}
 
 	var productNamesRes []*pb.ProductNameWithID
 
-	for _,p := range productMap {
+	for _, p := range productMap {
 		productNamesRes = append(productNamesRes, &pb.ProductNameWithID{
-			Productid: int64(p.ID),
+			Productid:   int64(p.ID),
 			Productname: p.MovieName,
 		})
 	}
 
-
 	return &pb.ProductNamesResponse{
 		Productswithid: productNamesRes,
-	},nil
+	}, nil
 
 }
-
-	

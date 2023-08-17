@@ -34,7 +34,6 @@ func LoadConfig() (Config, error) {
 		return config, err
 	}
 
-
 	return config, nil
 
 }

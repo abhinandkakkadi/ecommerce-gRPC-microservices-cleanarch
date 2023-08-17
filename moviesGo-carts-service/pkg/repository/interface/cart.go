@@ -6,11 +6,10 @@ import (
 )
 
 type CartRepository interface {
-	DoesProductExistInCart(productID int) (bool,error)
-	InsertNewProductInCart(productID int,quantity int,productPrice float64,userID int) error
-	IterateQuantityInCart(productID int,userID int,productPrice float64) error
-	GetUserCartFromID(userID int) ([]models.Cart,error)
-	CreateNewOrder(orderProducts domain.Order) (int,error)
+	DoesProductExistInCart(productID int) (bool, error)
+	InsertNewProductInCart(productID int, quantity int, productPrice float64, userID int) error
+	IterateQuantityInCart(productID int, userID int, productPrice float64) error
+	GetUserCartFromID(userID int) ([]models.Cart, error)
+	CreateNewOrder(orderProducts domain.Order) (int, error)
 	DeleteCartItems(userID int) error
-
 }

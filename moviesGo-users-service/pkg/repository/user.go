@@ -32,7 +32,6 @@ func (c *UserDatabase) CheckUserAvailability(email string) bool {
 
 }
 
-
 // // retrieve the user details form the database
 func (c *UserDatabase) FindUserByEmail(user models.UserLogin) (models.UserDetailsResponse, error) {
 
@@ -51,7 +50,6 @@ func (c *UserDatabase) FindUserByEmail(user models.UserLogin) (models.UserDetail
 
 }
 
-
 func (c *UserDatabase) AddUserDetails(user models.UserDetails) (int, error) {
 
 	var id int
@@ -65,10 +63,9 @@ func (c *UserDatabase) AddUserDetails(user models.UserDetails) (int, error) {
 
 }
 
-
 func (c *UserDatabase) AddAddress(addressInfo models.AddressInfo) error {
 
-	err := c.DB.Exec("INSERT INTO addresses (user_id,name,house_name,city) values (?,?,?,?)",addressInfo.UserID,addressInfo.Name,addressInfo.HouseName,addressInfo.City).Error
+	err := c.DB.Exec("INSERT INTO addresses (user_id,name,house_name,city) values (?,?,?,?)", addressInfo.UserID, addressInfo.Name, addressInfo.HouseName, addressInfo.City).Error
 	if err != nil {
 		return err
 	}
@@ -77,16 +74,16 @@ func (c *UserDatabase) AddAddress(addressInfo models.AddressInfo) error {
 
 }
 
-func (c *UserDatabase) GetUserAddress(userID int) ([]models.AddressInfoResponse,error) {
+func (c *UserDatabase) GetUserAddress(userID int) ([]models.AddressInfoResponse, error) {
 
 	var userAddress []models.AddressInfoResponse
 	err := c.DB.Raw("SELECT * FROM addresses").Scan(&userAddress).Error
 	if err != nil {
-		return []models.AddressInfoResponse{},err
+		return []models.AddressInfoResponse{}, err
 	}
-	fmt.Println("user addresses ",userAddress)
+	fmt.Println("user addresses ", userAddress)
 
-	return userAddress,nil
+	return userAddress, nil
 
 }
 

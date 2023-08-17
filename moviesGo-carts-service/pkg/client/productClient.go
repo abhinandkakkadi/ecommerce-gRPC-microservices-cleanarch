@@ -29,62 +29,58 @@ func NewProductClient(cfg config.Config) interfaces.ProductClient {
 
 }
 
+func (p *productClient) DoesProductExist(productID int) (bool, error) {
 
-func (p *productClient) DoesProductExist(productID int) (bool,error) {
-
-	res, err := p.client.DoesProductExist(context.Background(),&pb.ProductExistRequest{
+	res, err := p.client.DoesProductExist(context.Background(), &pb.ProductExistRequest{
 		Productid: int64(productID),
 	})
 
 	if err != nil {
-		return false,err
+		return false, err
 	}
 
-	return res.Prouctexist,nil
+	return res.Prouctexist, nil
 
 }
 
-func (p *productClient) GetProductPriceFromID(productID int) (float64,error) {
+func (p *productClient) GetProductPriceFromID(productID int) (float64, error) {
 
-	res, err := p.client.GetProductPriceFromID(context.Background(),&pb.ProductPriceFromIDRequest{
+	res, err := p.client.GetProductPriceFromID(context.Background(), &pb.ProductPriceFromIDRequest{
 		Productid: int64(productID),
 	})
 
 	if err != nil {
-		return 0.0,err
+		return 0.0, err
 	}
 
-	return float64(res.Price),nil
+	return float64(res.Price), nil
 
 }
 
-func (p *productClient) GetProductNamesFromID(productId []int) (map[int]string,error) {
+func (p *productClient) GetProductNamesFromID(productId []int) (map[int]string, error) {
 
 	var productMap []*pb.ProductIDS
 
-	for _,p := range productId {
+	for _, p := range productId {
 		productMap = append(productMap, &pb.ProductIDS{
 			Productid: int64(p),
 		})
 	}
 
-	res, err := p.client.GetCartProductsNameFromID(context.Background(),&pb.ProductIDSRequest{
+	res, err := p.client.GetCartProductsNameFromID(context.Background(), &pb.ProductIDSRequest{
 		Allproductids: productMap,
 	})
 
 	if err != nil {
-		return map[int]string{},nil
+		return map[int]string{}, nil
 	}
 
-	products  := make(map[int]string)
-	for _,p := range res.Productswithid {
-		fmt.Println("PRODUCT NAME: ",p.Productname)
+	products := make(map[int]string)
+	for _, p := range res.Productswithid {
+		fmt.Println("PRODUCT NAME: ", p.Productname)
 		products[int(p.Productid)] = p.Productname
 	}
 
-	return products,nil
+	return products, nil
 
 }
-
-
-

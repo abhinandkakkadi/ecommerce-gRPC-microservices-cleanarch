@@ -90,17 +90,17 @@ func (u *userUseCase) ValidateUser(signedToken string) (int, error) {
 
 }
 
-func (u *userUseCase) AddAddress(addressInfo models.AddressInfo) (int,error) {
+func (u *userUseCase) AddAddress(addressInfo models.AddressInfo) (int, error) {
 
 	err := u.userRepo.AddAddress(addressInfo)
 	if err != nil {
-		return 400,err
+		return 400, err
 	}
-	
-	return 201,nil
+
+	return 201, nil
 }
 
-func (u *userUseCase) GetUserAddress(userID int) ([]models.AddressInfoResponse,error) {
+func (u *userUseCase) GetUserAddress(userID int) ([]models.AddressInfoResponse, error) {
 
 	return u.userRepo.GetUserAddress(userID)
 }

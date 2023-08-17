@@ -9,11 +9,11 @@ package di
 import (
 	"github.com/abhinandkakkadi/moviesgo-carts-service/pkg/api"
 	"github.com/abhinandkakkadi/moviesgo-carts-service/pkg/api/service"
+	"github.com/abhinandkakkadi/moviesgo-carts-service/pkg/client"
 	"github.com/abhinandkakkadi/moviesgo-carts-service/pkg/config"
 	"github.com/abhinandkakkadi/moviesgo-carts-service/pkg/db"
 	"github.com/abhinandkakkadi/moviesgo-carts-service/pkg/repository"
 	"github.com/abhinandkakkadi/moviesgo-carts-service/pkg/usecase"
-	"github.com/abhinandkakkadi/moviesgo-carts-service/pkg/client"
 )
 
 // Injectors from wire.go:
@@ -27,7 +27,7 @@ func InitializeAPI(cfg config.Config) (*api.Server, error) {
 
 	cartRepository := repository.NewCartRepository(gormDB)
 	productClient := client.NewProductClient(cfg)
-	cartUseCase := usecase.NewCartUseCase(cartRepository,productClient)
+	cartUseCase := usecase.NewCartUseCase(cartRepository, productClient)
 
 	cartServiceServer := service.NewCartServiceServer(cartUseCase)
 	grpcServer, err := api.NewGRPCServer(cfg, cartServiceServer)

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net"
 
+	"github.com/abhinandkakkadi/moviesgo-user-service/pkg/api/interceptor"
 	"github.com/abhinandkakkadi/moviesgo-user-service/pkg/config"
 	"github.com/abhinandkakkadi/moviesgo-user-service/pkg/user/pb"
 	"google.golang.org/grpc"
@@ -21,7 +22,7 @@ func NewGRPCServer(cfg config.Config, server pb.AuthServiceServer) (*Server, err
 		return nil, err
 	}
 
-	newServer := grpc.NewServer()
+	newServer := grpc.NewServer(interceptor.WithServerInterceptor())
 	pb.RegisterAuthServiceServer(newServer, server)
 
 	return &Server{

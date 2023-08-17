@@ -21,79 +21,70 @@ func NewCartServiceServer(useCase interfaces.CartUseCase) pb.CartServiceServer {
 
 }
 
-
 func (c *CartServiceServer) AddToCart(ctx context.Context, cartRequest *pb.AddToCartRequest) (*pb.AddToCartResponse, error) {
 
-
-	status,err :=  c.cartUseCase.AddToCart(int(cartRequest.Productid),int(cartRequest.Userid))
+	status, err := c.cartUseCase.AddToCart(int(cartRequest.Productid), int(cartRequest.Userid))
 
 	if err != nil {
 		return &pb.AddToCartResponse{
 			Status: int64(status),
-		},err
+		}, err
 	}
 
 	return &pb.AddToCartResponse{
 		Status: int64(status),
-	},nil
+	}, nil
 
 }
 
 func (c *CartServiceServer) DisplayCart(ctx context.Context, userID *pb.DisplayCartRequest) (*pb.DisplayCartResponse, error) {
-	
-	cartResponse,err := c.cartUseCase.DisplayCArt(int(userID.Userid))
+
+	cartResponse, err := c.cartUseCase.DisplayCArt(int(userID.Userid))
 	if err != nil {
-		return &pb.DisplayCartResponse{
-		},err
+		return &pb.DisplayCartResponse{}, err
 	}
 
 	var cartProducts []*pb.Cart
-	for _,val := range cartResponse.Cart {
-			cartProducts = append(cartProducts, &pb.Cart{
-				Prdoductid: int64(val.ProductID),
-				Moviename: val.MovieName,
-				Quantity: int64(val.Quantity),
-				Totalprice: float32(val.TotalPrice),
-			})
+	for _, val := range cartResponse.Cart {
+		cartProducts = append(cartProducts, &pb.Cart{
+			Prdoductid: int64(val.ProductID),
+			Moviename:  val.MovieName,
+			Quantity:   int64(val.Quantity),
+			Totalprice: float32(val.TotalPrice),
+		})
 	}
 
 	return &pb.DisplayCartResponse{
-		Totalprice: float32(cartResponse.TotalPrice),
+		Totalprice:   float32(cartResponse.TotalPrice),
 		Cartproducts: cartProducts,
-	},nil
-	
+	}, nil
 
 }
 
 func (c *CartServiceServer) OrderFromCart(ctx context.Context, orderRequest *pb.OrderRequest) (*pb.OrderResponse, error) {
 
 	orderItems := []domain.OrderItems{}
-	for _,product := range orderRequest.Cartproducts {
+	for _, product := range orderRequest.Cartproducts {
 		orderItems = append(orderItems, domain.OrderItems{
 			ProductID: int(product.Prdoductid),
-			Quantity: int(product.Quantity),
-			Price: float64(product.Totalprice),
+			Quantity:  int(product.Quantity),
+			Price:     float64(product.Totalprice),
 		})
 	}
 
 	orderWrapper := domain.Order{
-		UserID: int(orderRequest.Userid),
+		UserID:    int(orderRequest.Userid),
 		AddressID: int(orderRequest.Addressid),
-		Items: orderItems,
+		Items:     orderItems,
 	}
 
 	orderId, err := c.cartUseCase.OrderItemsFromCarts(orderWrapper)
 	if err != nil {
-		return &pb.OrderResponse{
-
-		},err
+		return &pb.OrderResponse{}, err
 	}
 
 	return &pb.OrderResponse{
 		Orderid: int64(orderId),
-	},nil
+	}, nil
 
 }
-
-
-	
